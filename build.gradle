@@ -1,0 +1,29 @@
+group 'com.aifeng'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+//JDK 8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    //TODO 统一版本号
+    compile 'org.springframework:spring-webmvc:4.3.7.RELEASE'
+    compile 'org.springframework:spring-context:4.3.7.RELEASE'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.1'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
