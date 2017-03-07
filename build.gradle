@@ -12,16 +12,35 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springVersion = '4.3.7.RELEASE'
+    log4jVersion = '2.8.1'
+    hibernateVersion = '4.3.6.Final'
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    //TODO 统一版本号
-    compile 'org.springframework:spring-webmvc:4.3.7.RELEASE'
-    compile 'org.springframework:spring-context:4.3.7.RELEASE'
+    testCompile "junit:junit:4.11"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+
+    compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
+    compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+
+    compile "org.postgresql:postgresql:9.3-1102-jdbc41"
+    compile "mysql:mysql-connector-java:6.0.5"
+
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    compile "org.hibernate:hibernate-core:$hibernateVersion"
+    compile "c3p0:c3p0:0.9.1.2"
+    compile "org.hibernate:hibernate-c3p0:$hibernateVersion"
+
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.1'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    gradleVersion = '3.1'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 dependencies {
