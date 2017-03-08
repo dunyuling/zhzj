@@ -16,6 +16,7 @@ ext {
     springVersion = '4.3.7.RELEASE'
     log4jVersion = '2.8.1'
     hibernateVersion = '4.3.6.Final'
+    springDataVersion = '1.11.1.RELEASE'
 }
 
 dependencies {
@@ -24,6 +25,7 @@ dependencies {
     compile "org.springframework:spring-context:$springVersion"
     compile "org.springframework:spring-jdbc:$springVersion"
     compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework.data:spring-data-jpa:$springDataVersion"
 
     compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
     compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
@@ -35,7 +37,6 @@ dependencies {
     compile "org.hibernate:hibernate-core:$hibernateVersion"
     compile "c3p0:c3p0:0.9.1.2"
     compile "org.hibernate:hibernate-c3p0:$hibernateVersion"
-
 }
 
 task wrapper(type: Wrapper) {

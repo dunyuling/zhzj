@@ -15,14 +15,12 @@ public class User1 {
         System.out.println("---------------------");
     }
 
-    /*@Id
-    @GeneratedValue*/
+    @Id
+    @GeneratedValue
     private long id;
 
-//    @Column
+    @Column
     private String name;
-
-
 
     public long getId() {
         return id;
