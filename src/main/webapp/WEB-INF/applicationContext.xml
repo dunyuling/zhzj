@@ -16,7 +16,7 @@
     </bean>
 
     <!-- 非jpa方式 -->
-    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties">
             <props>
@@ -37,11 +37,11 @@
     <bean id="transactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
           abstract="true">
         <property name="transactionManager" ref="transactionManager" />
-    </bean>-->
+    </bean>
 
 
     <!-- jpa方式开始 -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:packagesToScan="com.aifeng.model"
           p:dataSource-ref="dataSource" >
         <property name="jpaVendorAdapter">
@@ -50,12 +50,12 @@
                 <property name="showSql" value="true" />
             </bean>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- Transactions -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    </bean>-->
     <!-- jpa方式结束 -->
 
     <!-- enable the configuration of transactional behavior based on annotations -->
