@@ -9,6 +9,7 @@ import javax.persistence.*;
  */
 @Table
 @Entity
+
 public class User1 {
 
     public User1() {
