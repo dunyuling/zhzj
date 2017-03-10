@@ -1,9 +1,12 @@
 package com.aifeng.model;
 
+import com.aifeng.constant.ReligionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by pro on 17-3-9.
@@ -13,28 +16,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Believer {
+//教主也在此列
+public class Believer extends BaseUser {
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @Enumerated(EnumType.STRING)
+    private ReligionType religionType;
 
-    @Column
-    private String name;
+    private String frequentedAddress;
 
-    @Column
-    private String mobileNum;
+    private boolean isLeader;//是不是教主
 
-    @Column
-    private String validateCode;
+    @OneToOne(mappedBy = "believer")
+    private NoticeReader noticeReader;
 
-    @Column
-    private String church;
+    @OneToMany(mappedBy = "id")
+    private Set<BelieverPath> believerPathSet = new HashSet<>();
 
-    @Column
-    private String IDNum;
-
-    @Column
-    private String address;
 }
