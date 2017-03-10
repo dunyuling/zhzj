@@ -41,6 +41,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+
+    <filter>
+        <filter-name>zhzjFilter</filter-name>
+        <filter-class>com.aifeng.ZhzjFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>zhzjFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>hiddenHttpMethodFilter</filter-name>
         <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
