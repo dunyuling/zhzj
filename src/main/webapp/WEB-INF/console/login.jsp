@@ -37,7 +37,7 @@
 
         </div>
 
-        <form class="m-t" role="form" action="index.do">
+        <form class="m-t" role="form" action="login.do">
             <div class="form-group">
                 <input <%--type="email"--%> name="username" class="form-control" placeholder="用户名" required="">
             </div>

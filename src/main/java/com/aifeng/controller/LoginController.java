@@ -26,8 +26,8 @@ public class LoginController {
 
     @RequestMapping("/login.do")
     public String login(HttpServletRequest request,Model model) {
-        String username = (String) request.getAttribute("username");
-        String password = (String) request.getAttribute("password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         Manager manager = managerService.findManager(username,password);
         if(manager != null) {
             request.getSession().setAttribute("username",username);
@@ -40,12 +40,17 @@ public class LoginController {
 
     @RequestMapping("/index.do")
     public String index(HttpServletRequest request) {
-        //        if(request.getSession().getAttribute("username") != null)
         String username = (String) request.getSession().getAttribute("username");
         if(username != null && !username.isEmpty()) {
             return "index";
         } else {
             return "redirect:/toLogin.do";
         }
+    }
+
+    @RequestMapping("/logout.do")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("username");
+        return "redirect:/toLogin.do";
     }
 }
