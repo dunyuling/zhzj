@@ -20,6 +20,8 @@ public class BaseUser {
 
     private String name;
 
+    private String password;
+
     private String photo;
 
     private String mobileNum;

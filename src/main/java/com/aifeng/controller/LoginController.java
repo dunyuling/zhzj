@@ -1,9 +1,14 @@
 package com.aifeng.controller;
 
+import com.aifeng.model.Manager;
+import com.aifeng.service.ManagerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by pro on 17-3-10.
@@ -11,18 +16,36 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/login")
-    public String login() {
+    @Autowired
+    ManagerService managerService;
+
+    @RequestMapping("/toLogin.do")
+    public String toLogin() {
         return "login";
     }
 
-    @RequestMapping("/index")
-    public String index(HttpServletRequest request) {
-        String user = request.getParameter("user");
-        if(user != null && user.equals("lhg")) {
+    @RequestMapping("/login.do")
+    public String login(HttpServletRequest request,Model model) {
+        String username = (String) request.getAttribute("username");
+        String password = (String) request.getAttribute("password");
+        Manager manager = managerService.findManager(username,password);
+        if(manager != null) {
+            request.getSession().setAttribute("username",username);
             return "index";
         } else {
-            return "redirect:/login";
+            model.addAttribute("errMsg","用户名或者密码错误");
+            return "redirect:/toLogin.do";
+        }
+    }
+
+    @RequestMapping("/index.do")
+    public String index(HttpServletRequest request) {
+        //        if(request.getSession().getAttribute("username") != null)
+        String username = (String) request.getSession().getAttribute("username");
+        if(username != null && !username.isEmpty()) {
+            return "index";
+        } else {
+            return "redirect:/toLogin.do";
         }
     }
 }
