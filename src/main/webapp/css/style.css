@@ -5320,6 +5320,32 @@ a.compose-mail {
     width: 23%;
 }
 
+/* AD */
+.ad-actions {
+    text-align: right;
+    vertical-align: middle;
+    text-align:left;
+}
+
+.ad img {
+    width: 32px;
+    height: 32px;
+}
+
+.ad-title {
+    font-size: 14px;
+    color: #676a6c;
+    font-weight: 500;
+    width:300px;
+}
+
+.ad-list table tr td {
+    border-top: none;
+    border-bottom: 1px solid #e7eaec;
+    padding: 15px 10px;
+    vertical-align: middle;
+}
+
 
 /* PROJECTS */
 
@@ -5327,6 +5353,7 @@ a.compose-mail {
 .project-actions {
     text-align: right;
     vertical-align: middle;
+    text-align:left;
 }
 
 dd.project-people {
@@ -5342,7 +5369,7 @@ dd.project-people {
 .project-title a {
     font-size: 14px;
     color: #676a6c;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .project-list table tr td {

@@ -5,5 +5,5 @@ package com.aifeng.constant;
  */
 //TODO 具体内容待定
 public enum InnerRedirectionType {
-
+    资讯, 商品, 门票, 评选
 }

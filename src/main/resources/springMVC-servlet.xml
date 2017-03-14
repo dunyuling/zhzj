@@ -5,18 +5,25 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tool http://www.springframework.org/schema/tool/spring-tool.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:component-scan base-package="com.aifeng.controller" />
-    <context:component-scan base-package="com.aifeng.model" />
-    <context:component-scan base-package="com.aifeng.service" />
+    <context:component-scan base-package="com.aifeng.controller"/>
+    <context:component-scan base-package="com.aifeng.model"/>
+    <context:component-scan base-package="com.aifeng.service"/>
 
-    <jpa:repositories base-package="com.aifeng.dao" />
+    <jpa:repositories base-package="com.aifeng.dao"/>
+    <context:component-scan base-package="com.aifeng.rest" />
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
     <!--配置静态资源  暂时未用到-->
-    <mvc:default-servlet-handler />
+    <mvc:default-servlet-handler/>
 
-    <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name = "prefix" value = "/WEB-INF/console/" />
-        <property name = "suffix" value = ".jsp" />
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/console/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="104857600"/>
+        <property name="maxInMemorySize" value="4096"/>
     </bean>
 </beans>
