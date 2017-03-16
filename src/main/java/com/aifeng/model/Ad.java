@@ -34,6 +34,8 @@ public class Ad {
     @Enumerated(EnumType.STRING)
     private RedirectionType redirectionType;
 
+    private String externalLink;
+
     @Enumerated(EnumType.STRING)
     private InnerRedirectionType innerRedirectionType;
 

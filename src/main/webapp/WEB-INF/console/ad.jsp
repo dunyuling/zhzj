@@ -86,15 +86,13 @@
 
                                     </td>
                                     <td class="ad-actions">
-                                        <a href="/ad_toEdit.do" class="btn btn-white btn-sm"><i
-                                                class="fa fa-pencil"></i>
+                                        <a href="/ad_toEdit.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
                                             编辑 </a>
-                                        <a href="/ad_del.do" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
+                                        <a href="/ad_del.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
                                             删除 </a>
-                                        <a href="/ad_up.do" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i>
+                                        <a href="/ad_up.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i>
                                             上移 </a>
-                                        <a href="/ad_down.do" class="btn btn-white btn-sm"><i
-                                                class="fa fa-arrow-down"></i>
+                                        <a href="/ad_down.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i>
                                             下移 </a>
                                     </td>
                                 </tr>

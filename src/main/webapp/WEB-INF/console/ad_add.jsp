@@ -38,19 +38,17 @@
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" enctype="multipart/form-data"
-                          method="post"
-                          action="/ad_add.do">
+                          method="post" action="/ad_add.do">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称：</label>
                             <div class="col-sm-7">
-                                <input name="name" class="form-control" type="text">
-                                <%--<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 这里写点提示的内容</span>--%>
+                                <input name="name" class="form-control" type="text" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="file"
+                                <input name="img" type="file" required
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -68,7 +66,7 @@
                         <div id="innerDirectionTypeZone" class="form-group">
                             <label class="col-sm-3 control-label">内部跳转类型：</label>
                             <div class="col-sm-7">
-                                <select id="innerDirectionType" class="form-control" name="innerRedirectionType">
+                                <select id="innerRedirectionType" class="form-control" name="innerRedirectionType">
                                     <option>资讯</option>
                                     <option>商品</option>
                                     <option>门票</option>
@@ -80,14 +78,14 @@
                         <div id="externalLinkZone" class="form-group">
                             <label class="col-sm-3 control-label">外部链接：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="text"
+                                <input name="externalLink"   type="url" id="externalLink"
                                        aria-required="true" placeholder="外链接" aria-invalid="false" class="valid">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-7 col-sm-offset-3">
-                                <button class="btn btn-primary" type="submit">提交</button>
+                                <button id="submit" class="btn btn-primary" type="submit">提交</button>
                             </div>
                         </div>
                     </form>
@@ -113,15 +111,9 @@
 <script src="/js/demo/form-validate-demo.js"></script>
 
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<script src="/js/inner/ad_add.js"></script>
 <!--统计代码，可删除-->
 
-<script src="/js/inner/ad.js" />
-<script type="text/javascript">
-    function aa() {
-        alert("ss");
-    }
-    aa();
-</script>
 
 </body>
 

@@ -37,9 +37,9 @@
 
         </div>
 
-        <form class="m-t" role="form" action="login.do">
+        <form class="m-t" role="form" action="login.do" method="post">
             <div class="form-group">
-                <input <%--type="email"--%> name="username" class="form-control" placeholder="用户名" required="">
+                <input name="username" class="form-control" placeholder="用户名" required="">
             </div>
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="密码" required="">
