@@ -21,7 +21,6 @@ public class RestController {
     @ResponseBody
     AdResponse mobileAdd() {
         AdResponse adResponse = new AdResponse();
-
         try {
             adResponse.config("success", 1);
             adResponse.setAds(adService.findAll());
@@ -30,6 +29,5 @@ public class RestController {
             adResponse.config("failure", 0);
             return adResponse;
         }
-
     }
 }

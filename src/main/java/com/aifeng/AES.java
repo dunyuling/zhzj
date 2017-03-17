@@ -107,9 +107,7 @@ public class AES {
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             byte[] encrypted1 = hex2byte(sSrc);
             try {
-                byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original);
-                return originalString;
+                return new String(cipher.doFinal(encrypted1));
             } catch (Exception e) {
                 System.out.println(e.toString());
                 return null;
@@ -206,9 +204,7 @@ public class AES {
 
             byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);// 先用base64解密
             try {
-                byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original);
-                return originalString;
+                return new String(cipher.doFinal(encrypted1));
             } catch (Exception e) {
                 System.out.println(e.toString());
                 return null;
@@ -259,7 +255,7 @@ public class AES {
 
         System.out.println(AES.Encrypt2("123456", sKey));
 
-        System.out.println(AES.Decrypt2("8y96IcZd1IeYJmbmD+zCKg==", sKey));
+        System.out.println(AES.Decrypt2("UoKBkFYtbEs2LKx3srcKRQ==", sKey));
 
         System.out.println(AES.Encrypt("123456", sKey));
         System.out.println(AES.Decrypt("52828190562d6c4b362cac77b2b70a45", sKey));

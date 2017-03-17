@@ -1,6 +1,10 @@
 package com.aifeng;
 
+import org.apache.http.NameValuePair;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pro on 17-3-14.
@@ -13,9 +17,9 @@ public class Util {
             file.mkdirs();
     }
 
-    String key = "zhzj";
+    static String key = "zhzj";
 
-    public String getSign(String timestamp, String platform, String v, String data) {
+    public static String getSign(String timestamp, String platform, String v, String data) {
         StringBuilder builder = new StringBuilder();
         builder.append(key);
         builder.append("timestamp").append(timestamp);
@@ -41,6 +45,6 @@ public class Util {
         pairs.add(new NameValuePair("sign", sign));
         System.out.println("5555--" + this.url);
         this.result = doClientPost(this.url, pairs.toArray(new NameValuePair[0]));
-//	System.out.println(result);
+        //	System.out.println(result);
     }*/
 }
