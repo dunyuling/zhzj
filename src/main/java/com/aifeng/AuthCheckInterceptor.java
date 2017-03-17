@@ -71,7 +71,7 @@ public class AuthCheckInterceptor extends HandlerInterceptorAdapter {
         builder.append("data").append(data);
         builder.append(key);
         log.info("==========" + builder.toString());
-//        System.out.println(AES.getMd5(builder.toString()));
+        System.out.println("builder: " + builder.toString());
         return sign != null && sign.equals(AES.getMd5(builder.toString()));
     }
 

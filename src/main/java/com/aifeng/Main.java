@@ -4,6 +4,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -14,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.security.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pro on 17-3-7.
@@ -100,29 +101,45 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-
-
+        testTemplate();
     }
 
     public static void testTemplate() {
-        //TODO 参数传递不过去
+        String key = "zhzj";
+
         RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-        Map<String, Object> map = new HashMap<>();
-        map.put("key", "zhzj");
-        map.put("timestamp", System.currentTimeMillis());
-        map.put("plat", "android");
-        map.put("v", "1.0");
-        map.put("data", "data");
-        map.put("key", "zhzj");
-        String sign = AES.getMd5(map.toString());
-        map.put("sign", sign);
 
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("v", "1.0");
-        HttpEntity<?> entity = new HttpEntity<>(body);
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String plat = "android";
+        String v = "1.0";
+        String data = "data";
 
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/ad.json",HttpMethod.POST, entity,String.class,map);
+
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        List<String> list = new ArrayList<>();
+        list.add(0,"b");
+        httpHeaders.put("a",list);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("timestamp", timeStamp);
+        body.add("plat", plat);
+        body.add("v", v);
+        body.add("data", data);
+        body.add("sign", getSign(key,timeStamp,plat,v,data));
+
+        HttpEntity<?> entity = new HttpEntity<>(body,httpHeaders);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/ad.json",HttpMethod.POST, entity,String.class);
         System.out.println(responseEntity);
+    }
+
+    public static String getSign(String key,String timestamp,String plat,String v,String data) {
+        String builder = key +
+                "timestamp" + timestamp +
+                "plat" + plat +
+                "v" + v +
+                "data" + data +
+                key;
+        return AES.getMd5(builder);
     }
 
     private static ClientHttpRequestFactory getClientHttpRequestFactory() {
