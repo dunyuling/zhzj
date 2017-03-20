@@ -21,8 +21,12 @@ import java.util.function.LongToIntFunction;
 @Service
 public class AdService {
 
+    private final AdRepository adRepository;
+
     @Autowired
-    AdRepository adRepository;
+    public AdService(AdRepository adRepository) {
+        this.adRepository = adRepository;
+    }
 
     @Transactional
     public void saveAd(String name, String imgPath, RedirectionType redirectionType,String innerRedirectionType,

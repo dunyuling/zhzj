@@ -1,5 +1,6 @@
 package com.aifeng;
 
+import com.aifeng.constant.InformationPublisher;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -101,7 +102,10 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-        testTemplate();
+//        testTemplate();
+
+        System.out.println(InformationPublisher.getIP("religion"));
+        System.out.println(InformationPublisher.getIP("政府"));
     }
 
     public static void testTemplate() {

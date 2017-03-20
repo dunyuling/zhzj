@@ -42,13 +42,13 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="/ad.do">广告管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="profile.html">政府资讯管理</a>
+                        <li><a class="J_menuItem" href="/information.do?ip=gov">政府资讯管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="teams_board.html">宗教资讯管理</a>
+                        <li><a class="J_menuItem" href="/information.do?ip=religion">宗教资讯管理</a>
                         </li>
                         <li><a class="J_menuItem" href="social_feed.html">评比管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="clients.html">会场管理</a>
+                        <li><a class="J_menuItem" href="clients.html">会场管理</a>I
                         </li>
                         <li><a class="J_menuItem" href="file_manager.html">宗教产品管理</a>
                         </li>

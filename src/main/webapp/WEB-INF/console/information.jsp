@@ -32,9 +32,9 @@
 
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>所有广告</h5>
+                    <h5>所有资讯</h5>
                     <div class="ibox-tools">
-                        <a href="/ad_toAdd.do" class="btn btn-primary btn-xs">创建新广告</a>
+                        <a href="/information_toAdd.do?ip=${ip}" class="btn btn-primary btn-xs">创建新资讯</a>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -59,35 +59,37 @@
                             <tr>
                                 <th>图片</th>
                                 <th>标题</th>
-                                <th>跳转类型</th>
-                                <th>内部跳转类型</th>
+                                <th>内容简介</th>
+                                <th>审核类型</th>
+                                <th>拒绝原因</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="ad" items="${ads}">
+                            <c:forEach var="information" items="${informations}">
                                 <tr>
                                     <td class="project-people">
-                                        <a href="#"><img alt="image" class="img-responsive" src="${ad.img}"></a>
+                                        <a href="#"><img alt="image" class="img-responsive" src="${information.img}"></a>
                                     </td>
                                     <td class="project-status">
-                                        <span class="label label-primary">${ad.name}</span>
+                                        <span class="label label-primary">${information.title}</span>
                                     </td>
                                     <td class="ad-title">
-                                        <a href="#">${ad.redirectionType}</a>
+                                        <a href="#">${information.content}</a>
                                     </td>
-                                    <td class="project-completion">
-
+                                    <td class="ad-title">
+                                        <a href="#">${information.verifyStatus}</a>
+                                    </td>
+                                    <td class="ad-title">
+                                        <a href="#">${information.denyReason}</a>
                                     </td>
                                     <td class="ad-actions">
-                                        <a href="/ad_toEdit.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
+                                        <a href="/information_toEdit.do?id=${information.id}&ip=${ip}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
                                             编辑 </a>
-                                        <a href="/ad_del.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
+                                        <a href="/information_toVerify.do?id=${information.id}&ip=${ip}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
+                                            审核 </a>
+                                        <a href="/information_del.do?id=${information.id}&ip=${ip}" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
                                             删除 </a>
-                                        <a href="/ad_up.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i>
-                                            上移 </a>
-                                        <a href="/ad_down.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i>
-                                            下移 </a>
                                     </td>
                                 </tr>
                             </c:forEach>

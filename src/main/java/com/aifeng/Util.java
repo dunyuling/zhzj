@@ -1,8 +1,13 @@
 package com.aifeng;
 
+import com.aifeng.constant.ImgPath;
 import org.apache.http.NameValuePair;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,4 +52,45 @@ public class Util {
         this.result = doClientPost(this.url, pairs.toArray(new NameValuePair[0]));
         //	System.out.println(result);
     }*/
+
+
+    public static String uploadImg(HttpServletRequest request,String realPath) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        mkDir(imgRealPathDir);
+
+        MultipartFile multipartFile = multipartRequest.getFile("img");
+        String imgName = multipartFile.getOriginalFilename();
+        String fullPath = imgRealPathDir + File.separator + imgName;
+
+        System.out.println("logImageName："+imgName);
+        File file = new File(fullPath);
+        try {
+            multipartFile.transferTo(file);
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+        }
+        return realPath + File.separator + imgName;
+    }
+
+    public static String editImg(HttpServletRequest request,String realPath) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        Util.mkDir(imgRealPathDir);
+
+        String imgRelativePath = null;
+        MultipartFile multipartFile = multipartRequest.getFile("img");
+        if (!multipartFile.isEmpty()) {
+            String fullPath = imgRealPathDir + File.separator + multipartFile.getOriginalFilename();
+
+            File file = new File(fullPath);
+            try {
+                multipartFile.transferTo(file);
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+            imgRelativePath = realPath + File.separator + multipartFile.getOriginalFilename();
+        }
+        return imgRelativePath;
+    }
 }
