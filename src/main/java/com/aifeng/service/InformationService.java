@@ -96,3 +96,4 @@ public class InformationService {
     public void saveInformation(Information information) {
         informationRepository.save(information);
     }
+}
