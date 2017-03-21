@@ -17,7 +17,7 @@ public class AdResponse {
 
     private int code;
 
-    private List<Ad> ads;
+    private List<Ad> data;
 
     public void config(String msg,int code) {
         this.msg = msg;

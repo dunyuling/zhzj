@@ -34,14 +34,14 @@ public class RestController {
         this.informationService = informationService;
     }
 
-    @RequestMapping(value="/ad.json",method = RequestMethod.GET)
+    @RequestMapping(value="/ad.json",method = RequestMethod.POST)
     public
     @ResponseBody
     AdResponse ad() {
         AdResponse adResponse = new AdResponse();
         try {
             adResponse.config("success", 1);
-            adResponse.setAds(adService.findAll());
+            adResponse.setData(adService.findAll());
         } catch (Exception e) {
             adResponse.config("failure", 0);
         }
@@ -54,9 +54,9 @@ public class RestController {
         InformationResponse informationResponse = new InformationResponse();
         try {
             String ip = request.getParameter("ip");
-            InformationPublisher informationPublisher = InformationPublisher.valueOf(ip);
+            InformationPublisher informationPublisher = InformationPublisher.getIP(ip);
             informationResponse.setMsg("success");
-            informationResponse.setData(informationService.findAll(informationPublisher, VerifyStatus.待审核));
+            informationResponse.setData(informationService.findAll(informationPublisher, VerifyStatus.审核通过));
         } catch (Exception e) {
             informationResponse.setMsg("failure");
         }

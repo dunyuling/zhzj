@@ -28,7 +28,7 @@ public class Information {
 
     private String content;
 
-    private String visitTimes;
+    private int visitTimes;
 
     private Date publishTime;
 

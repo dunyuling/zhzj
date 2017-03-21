@@ -48,7 +48,7 @@
                         </li>
                         <li><a class="J_menuItem" href="social_feed.html">评比管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="clients.html">会场管理</a>I
+                        <li><a class="J_menuItem" href="clients.html">会场管理</a>
                         </li>
                         <li><a class="J_menuItem" href="file_manager.html">宗教产品管理</a>
                         </li>

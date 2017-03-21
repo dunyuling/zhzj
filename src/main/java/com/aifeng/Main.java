@@ -102,10 +102,7 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-//        testTemplate();
-
-        System.out.println(InformationPublisher.getIP("religion"));
-        System.out.println(InformationPublisher.getIP("政府"));
+        testTemplate();
     }
 
     public static void testTemplate() {
@@ -128,11 +125,14 @@ public class Main {
         body.add("timestamp", timeStamp);
         body.add("plat", plat);
         body.add("v", v);
-        body.add("data", data);
+        body.add("data", "data");
         body.add("sign", getSign(key,timeStamp,plat,v,data));
+        body.add("id",30);
 
         HttpEntity<?> entity = new HttpEntity<>(body,httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/ad.json",HttpMethod.POST, entity,String.class);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/information_visit.json",HttpMethod.POST, entity,String.class);
+
+
         System.out.println(responseEntity);
     }
 
