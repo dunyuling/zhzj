@@ -5,11 +5,13 @@ import com.aifeng.dao.ProductSlideRepository;
 import com.aifeng.model.Product;
 import com.aifeng.model.ProductSlide;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pro on 17-3-21.
@@ -18,13 +20,14 @@ import java.util.Date;
 public class ProductSlideService {
 
     private final ProductSlideRepository productSlideRepository;
+
     @Autowired
     public ProductSlideService(ProductSlideRepository productRepository) {
         this.productSlideRepository = productRepository;
     }
 
     @Transactional
-    public void saveSlide(String[] imgPaths,Product product) {
+    public void saveSlide(String[] imgPaths, Product product) {
         for (String imgPath : imgPaths) {
             ProductSlide productSlide = new ProductSlide();
             productSlide.setImg(imgPath);
@@ -33,6 +36,12 @@ public class ProductSlideService {
             productSlide.setProduct(product);
             productSlideRepository.save(productSlide);
         }
+    }
+
+    @Transactional
+    public List<ProductSlide> getByProduct(Product product) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
+        return productSlideRepository.findAllByProduct(product, sort);
     }
 
     @Transactional

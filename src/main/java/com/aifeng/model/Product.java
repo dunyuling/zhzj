@@ -2,6 +2,8 @@ package com.aifeng.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -36,6 +38,7 @@ public class Product {
     private Date updateTime;
 
     @OneToMany(mappedBy = "product")
+    @Fetch(FetchMode.SELECT)
     private Set<ProductSlide> productSlideSet = new HashSet<>();
 
     @OneToMany(mappedBy = "product")

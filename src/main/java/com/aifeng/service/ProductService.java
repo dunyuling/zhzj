@@ -8,11 +8,15 @@ import com.aifeng.model.Ad;
 import com.aifeng.model.Product;
 import com.aifeng.model.ProductIntro;
 import com.aifeng.model.ProductSlide;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +47,8 @@ public class ProductService {
 
     private final
     ProductSlideService productSlideService;
+    @PersistenceContext
+    EntityManager entityManager;
 
 
     @Transactional
@@ -64,6 +70,13 @@ public class ProductService {
     public List<Product> findAll() {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         return productRepository.findAll(sort);
+    }
+
+    @Transactional
+    public Product findProduct(long id) {
+        Product product = productRepository.findOne(id);
+        Hibernate.initialize(product.getProductSlideSet());
+        return product;
     }
 
     //TODO 修改图片时删除原来的图片

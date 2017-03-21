@@ -21,13 +21,12 @@ public class ProductController {
 
     private final
     ProductService productService;
+
     @Autowired
-    public ProductController(ProductService productService, ProductSlideService productSlideService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.productSlideService = productSlideService;
     }
 
-    private final ProductSlideService productSlideService;
 
     @RequestMapping("/product.do")
     public String product(Model model) {
@@ -50,7 +49,7 @@ public class ProductController {
             String telephone = request.getParameter("telephone");
             String[] imgSlidePaths = Util.uploadImgs(request, ImgPath.productSlidePath);
 
-            productService.saveProduct(name, imgPath, price, seller, telephone,imgSlidePaths);
+            productService.saveProduct(name, imgPath, price, seller, telephone, imgSlidePaths);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +57,14 @@ public class ProductController {
     }
 
     @RequestMapping("/product_toEdit.do")
-    public String productToEdit() {
+    public String productToEdit(HttpServletRequest request, Model model) {
+        try {
+            long id = Long.parseLong(request.getParameter("id"));
+            Product product = productService.findProduct(id);
+            model.addAttribute("product", product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "product_edit";
     }
 
