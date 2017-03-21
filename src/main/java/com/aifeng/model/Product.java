@@ -23,6 +23,8 @@ public class Product {
 
     private String name;
 
+    private String img;
+
     private float price;
 
     private String seller;
@@ -33,10 +35,10 @@ public class Product {
 
     private Date updateTime;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "product")
     private Set<ProductSlide> productSlideSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "product")
     private Set<ProductIntro> productIntroSet = new HashSet<>();
 
 }

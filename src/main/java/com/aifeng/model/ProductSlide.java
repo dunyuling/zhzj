@@ -3,10 +3,7 @@ package com.aifeng.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -22,9 +19,14 @@ public class ProductSlide {
     @GeneratedValue
     private long id;
 
+    private String name;
+
     private String img;
 
     private Date createTime;
 
     private Date updateTime;
+
+    @ManyToOne
+    private Product product;
 }

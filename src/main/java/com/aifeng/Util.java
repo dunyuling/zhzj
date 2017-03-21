@@ -2,8 +2,10 @@ package com.aifeng;
 
 import com.aifeng.constant.ImgPath;
 import org.apache.http.NameValuePair;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -54,7 +56,7 @@ public class Util {
     }*/
 
 
-    public static String uploadImg(HttpServletRequest request,String realPath) {
+    public static String uploadImg(HttpServletRequest request, String realPath) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
         mkDir(imgRealPathDir);
@@ -63,7 +65,7 @@ public class Util {
         String imgName = multipartFile.getOriginalFilename();
         String fullPath = imgRealPathDir + File.separator + imgName;
 
-        System.out.println("logImageName："+imgName);
+        System.out.println("logImageName：" + imgName);
         File file = new File(fullPath);
         try {
             multipartFile.transferTo(file);
@@ -73,7 +75,38 @@ public class Util {
         return realPath + File.separator + imgName;
     }
 
-    public static String editImg(HttpServletRequest request,String realPath) {
+    public static String[] uploadImgs(HttpServletRequest request, String realPath) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        mkDir(imgRealPathDir);
+        MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+
+        String[] paths = null;
+        for (String key : multiValueMap.keySet()) {
+            if (key.equals("product_slide")) {
+                List<MultipartFile> multipartFiles = multiValueMap.get(key);
+                int i = 0;
+                paths = new String[multipartFiles.size()];
+                for (MultipartFile multipartFile : multipartFiles) {
+                    String imgName = multipartFile.getOriginalFilename();
+                    String fullPath = imgRealPathDir + File.separator + imgName;
+
+                    System.out.println("logImageName：" + imgName);
+                    File file = new File(fullPath);
+                    try {
+                        multipartFile.transferTo(file);
+                    } catch (IllegalStateException | IOException e) {
+                        e.printStackTrace();
+                    }
+                    paths[i++] = realPath + File.separator + imgName;
+                }
+            }
+        }
+        return paths;
+    }
+
+
+    public static String editImg(HttpServletRequest request, String realPath) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
         Util.mkDir(imgRealPathDir);

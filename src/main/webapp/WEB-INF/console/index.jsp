@@ -50,7 +50,7 @@
                         </li>
                         <li><a class="J_menuItem" href="clients.html">会场管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="file_manager.html">宗教产品管理</a>
+                        <li><a class="J_menuItem" href="/product.do">宗教产品管理</a>
                         </li>
                         <li><a class="J_menuItem" href="calendar.html">通知管理</a>
                         </li>

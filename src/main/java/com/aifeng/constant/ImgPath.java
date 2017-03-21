@@ -6,4 +6,7 @@ package com.aifeng.constant;
 public class ImgPath {
     public static String adPath = "/img/ad";
     public static String informationPath = "/img/information";
+    public static String productPath = "/img/product";
+    public static String productSlidePath = "/img/product/slide";
+
 }
