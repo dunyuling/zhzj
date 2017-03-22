@@ -16,10 +16,8 @@
     <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
-    <link href="/css/plugins/summernote/summernote.css" rel="stylesheet">
-    <link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-
+    <%@taglib prefix="cs" tagdir="/WEB-INF/tags" %>
 </head>
 
 <body class="gray-bg">
@@ -33,17 +31,17 @@
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" enctype="multipart/form-data"
-                          method="post" action="/product_add.do">
+                          method="post" <%--action="/product_add.do"--%>>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称：</label>
                             <div class="col-sm-7">
-                                <input name="name" class="form-control" type="text" required>
+                                <input name="name" class="form-control" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="file" required
+                                <input name="img" type="file"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -51,7 +49,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">价格：</label>
                             <div class="col-sm-7">
-                                <input name="price" type="text" required
+                                <input name="price" type="text"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -59,7 +57,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">卖家：</label>
                             <div class="col-sm-7">
-                                <input name="seller" type="text" required
+                                <input name="seller" type="text"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -67,7 +65,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">卖家电话：</label>
                             <div class="col-sm-7">
-                                <input name="telephone" type="tel" required
+                                <input name="telephone" type="tel"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -77,7 +75,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">商品图片：</label>
                                 <div class="col-lg-3">
-                                    <input name="product_slide" type="file" required
+                                    <input name="product_slide" type="file"
                                            aria-required="true" aria-invalid="false" class="valid">
                                 </div>
                                 <button name="product_intro_add" type="button" class="btn btn-outline btn-default">
@@ -89,19 +87,22 @@
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">产品介绍：</label>
-                            <div class="col-sm-8">
+                            <%--<div class="col-sm-8">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-content no-padding">
-                                        <div class="summernote" id="product_intro" name="product_intro">
-                                        </div>
+                                        <textarea class="summernote" id="product_intro" name="product_intro">
+                                        </textarea>
                                     </div>
                                 </div>
+                            </div>--%>
+                            <div class="col-sm-8">
+                                <cs:wordedit name="详情"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-7 col-sm-offset-3">
-                                <button id="submit" class="btn btn-primary" type="submit">提交</button>
+                                <button id="submit" class="btn btn-primary" <%--type="submit"--%>>提交</button>
                             </div>
                         </div>
                     </form>
@@ -141,30 +142,6 @@
 <script type="text/javascript" src="/js/inner/product_add.js"></script>
 <!--统计代码，可删除-->
 
-<!-- SUMMERNOTE -->
-<script src="/js/plugins/summernote/summernote.min.js"></script>
-<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
 
-<script>
-    $(document).ready(function () {
-
-        $('.summernote').summernote({
-            lang: 'zh-CN'
-        });
-
-    });
-    var edit = function () {
-        $("#eg").addClass("no-padding");
-        $('.click2edit').summernote({
-            lang: 'zh-CN',
-            focus: true
-        });
-    };
-    var save = function () {
-        $("#eg").removeClass("no-padding");
-        var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
-        $('.click2edit').destroy();
-    };
-</script>
 </body>
 </html>

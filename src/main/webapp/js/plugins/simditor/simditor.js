@@ -3821,7 +3821,7 @@ ImageButton = (function(_super) {
         if ($input) {
           $input.remove();
         }
-        return $input = $('<input type="file" title="' + _this._t('uploadImage') + '" accept="image/*">').appendTo($uploadItem);
+        return $input = $('<input name="fileData" type="file" title="' + _this._t('uploadImage') + '" accept="image/*">').appendTo($uploadItem);
       };
     })(this);
     createInput();
@@ -4206,7 +4206,7 @@ ImagePopover = (function(_super) {
         if (_this.input) {
           _this.input.remove();
         }
-        return _this.input = $('<input type="file" title="' + _this._t('uploadImage') + '" accept="image/*">').appendTo($uploadBtn);
+        return _this.input = $('<input name="fileData" type="file" title="' + _this._t('uploadImage') + '" accept="image/*">').appendTo($uploadBtn);
       };
     })(this);
     createInput();
