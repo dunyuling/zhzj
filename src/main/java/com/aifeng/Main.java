@@ -127,11 +127,10 @@ public class Main {
         body.add("v", v);
         body.add("data", "data");
         body.add("sign", getSign(key,timeStamp,plat,v,data));
-        body.add("id",30);
+        body.add("ip","gov");
 
         HttpEntity<?> entity = new HttpEntity<>(body,httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/information_visit.json",HttpMethod.POST, entity,String.class);
-
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/information.json",HttpMethod.POST, entity,String.class);
 
         System.out.println(responseEntity);
     }

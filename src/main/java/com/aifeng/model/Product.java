@@ -1,18 +1,21 @@
 package com.aifeng.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pro on 17-3-10.
  */
+//@ToString
 @Data
 @NoArgsConstructor
 @Table
@@ -38,10 +41,10 @@ public class Product {
     private Date updateTime;
 
     @OneToMany(mappedBy = "product")
-    @Fetch(FetchMode.SELECT)
-    private Set<ProductSlide> productSlideSet = new HashSet<>();
+    private List<ProductSlide> productSlideList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private Set<ProductIntro> productIntroSet = new HashSet<>();
+    private List<ProductIntro> productIntroList = new ArrayList<>();
+
 
 }

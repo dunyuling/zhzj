@@ -43,13 +43,14 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称：</label>
                             <div class="col-sm-7">
-                                <input name="name" class="form-control" type="text" required>
+                                <input name="name" value="${product.name}" class="form-control" type="text" required>
+                                <input name="id" value="${product.id}" type="hidden"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="file" required
+                                <input name="img" type="file"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -57,7 +58,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">价格：</label>
                             <div class="col-sm-7">
-                                <input name="price" type="text" required
+                                <input name="price" type="text" required value="${product.price}"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -65,7 +66,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">卖家：</label>
                             <div class="col-sm-7">
-                                <input name="seller" type="text" required
+                                <input name="seller" type="text" required value="${product.seller}"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -73,20 +74,22 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">卖家电话：</label>
                             <div class="col-sm-7">
-                                <input name="telephone" type="tel" required
+                                <input name="telephone" type="tel" required value="${product.telephone}"
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
 
 
                         <div id="slide_zone">
-                            <c:forEach var="productSlide" items="${product.productSlideSet}">
+                            <c:forEach var="productSlide" items="${product.productSlideList}" varStatus="status">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">商品图片：</label>
+                                    <label class="col-sm-3 control-label"><c:if
+                                            test="${status.count == 1}">商品图片：</c:if> </label>
                                     <div class="col-lg-3">
-                                        <input name="product_slide" type="file" required
+                                        <input name="product_slide" type="file"
                                                aria-required="true" aria-invalid="false" class="valid">
-                                        <input readonly type="text" value="${productSlide.name}" />
+                                        <input readonly type="text" value="${productSlide.name}"/>
+                                        <input type="hidden" name="product_slide_id" value="${productSlide.id}"/>
                                     </div>
                                     <button name="product_intro_add" type="button" class="btn btn-outline btn-default">
                                         <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
@@ -113,6 +116,7 @@
         <div class="col-lg-3">
             <input name="product_slide" type="file" required
                    aria-required="true" aria-invalid="false" class="valid">
+            <input type="hidden" name="product_slide_id"/>
         </div>
         <button name="product_intro_add" type="button" class="btn btn-outline btn-default">
             <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>

@@ -69,7 +69,21 @@ public class ProductController {
     }
 
     @RequestMapping("/product_edit.do")
-    public String productEdit() {
+    public String productEdit(HttpServletRequest request) {
+        try {
+            long id = Long.parseLong(request.getParameter("id"));
+            String imgPath = Util.editImg(request, ImgPath.productPath);
+            String name = request.getParameter("name");
+            float price = Float.parseFloat(request.getParameter("price"));
+            String seller = request.getParameter("seller");
+            String telephone = request.getParameter("telephone");
+            String[] imgSlidePaths = Util.editImgs(request, ImgPath.productSlidePath);
+
+            String[] productSlideIds = request.getParameterValues("product_slide_id");
+            productService.editProduct(id, name, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/product.do";
     }
 

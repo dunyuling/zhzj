@@ -31,7 +31,7 @@ public class ProductSlideService {
         for (String imgPath : imgPaths) {
             ProductSlide productSlide = new ProductSlide();
             productSlide.setImg(imgPath);
-            productSlide.setName(imgPath.substring(imgPath.lastIndexOf(File.separator)) + 1);
+            productSlide.setName(imgPath.substring(imgPath.lastIndexOf(File.separator) + 1));
             productSlide.setCreateTime(new Date());
             productSlide.setProduct(product);
             productSlideRepository.save(productSlide);
@@ -45,7 +45,31 @@ public class ProductSlideService {
     }
 
     @Transactional
-    public void delSlide() {
+    public void delSlide(ProductSlide productSlide) {
+        productSlideRepository.delete(productSlide);
+    }
 
+    @Transactional
+    public void editSlide(String[] imgPaths, String[] imgIds, Product product) {
+        int i = 0;
+        for (String idStr : imgIds) {
+            ProductSlide productSlide;
+            if (idStr != null && !idStr.isEmpty()) {
+                long id = Long.parseLong(idStr);
+                productSlide = productSlideRepository.findOne(id);
+                productSlide.setUpdateTime(new Date());
+            } else {
+                productSlide = new ProductSlide();
+                productSlide.setCreateTime(new Date());
+            }
+            String imgPath = imgPaths[i];
+            if (imgPath != null) {
+                productSlide.setImg(imgPath);
+                productSlide.setName(imgPath.substring(imgPath.lastIndexOf(File.separator) + 1));
+            }
+            productSlide.setProduct(product);
+            productSlideRepository.save(productSlide);
+            i++;
+        }
     }
 }

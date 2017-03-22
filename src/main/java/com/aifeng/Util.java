@@ -105,6 +105,40 @@ public class Util {
         return paths;
     }
 
+    public static String[] editImgs(HttpServletRequest request,String realPath) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        mkDir(imgRealPathDir);
+        MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+
+        String[] paths = null;
+        for (String key : multiValueMap.keySet()) {
+            if (key.equals("product_slide")) {
+                List<MultipartFile> multipartFiles = multiValueMap.get(key);
+                int i = 0;
+                paths = new String[multipartFiles.size()];
+                for (MultipartFile multipartFile : multipartFiles) {
+                    if(!multipartFile.isEmpty()) {
+                        String imgName = multipartFile.getOriginalFilename();
+                        String fullPath = imgRealPathDir + File.separator + imgName;
+
+                        System.out.println("logImageName：" + imgName);
+                        File file = new File(fullPath);
+                        try {
+                            multipartFile.transferTo(file);
+                        } catch (IllegalStateException | IOException e) {
+                            e.printStackTrace();
+                        }
+                        paths[i++] = realPath + File.separator + imgName;
+                    } else {
+                        paths[i++] = null;
+                    }
+                }
+            }
+        }
+        return paths;
+    }
+
 
     public static String editImg(HttpServletRequest request, String realPath) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;

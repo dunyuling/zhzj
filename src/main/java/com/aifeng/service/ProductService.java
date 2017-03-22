@@ -4,18 +4,15 @@ import com.aifeng.constant.ImgPath;
 import com.aifeng.dao.ProductIntroRepository;
 import com.aifeng.dao.ProductRepository;
 import com.aifeng.dao.ProductSlideRepository;
-import com.aifeng.model.Ad;
 import com.aifeng.model.Product;
 import com.aifeng.model.ProductIntro;
 import com.aifeng.model.ProductSlide;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.Date;
@@ -33,20 +30,15 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductSlideRepository productSlideRepository, ProductIntroRepository productIntroRepository, ProductSlideService productSlideService) {
+    public ProductService(ProductRepository productRepository, ProductSlideRepository productSlideRepository, ProductIntroRepository productIntroRepository, ProductSlideService productSlideService, ProductIntroService productIntroService) {
         this.productRepository = productRepository;
-        this.productSlideRepository = productSlideRepository;
-        this.productIntroRepository = productIntroRepository;
         this.productSlideService = productSlideService;
+        this.productIntroService = productIntroService;
     }
-
-    private final ProductSlideRepository productSlideRepository;
-
-    private final
-    ProductIntroRepository productIntroRepository;
 
     private final
     ProductSlideService productSlideService;
+    private final ProductIntroService productIntroService;
     @PersistenceContext
     EntityManager entityManager;
 
@@ -75,14 +67,31 @@ public class ProductService {
     @Transactional
     public Product findProduct(long id) {
         Product product = productRepository.findOne(id);
-        Hibernate.initialize(product.getProductSlideSet());
+//        Set<ProductSlide> slideSet = product.getProductSlideSet();
+//        Hibernate.initialize();
+        List<ProductSlide> productSlides = productSlideService.getByProduct(product);
+        product.setProductSlideList(productSlides);
+//        Hibernate.initialize(product.getProductSlideSet());
         return product;
     }
 
     //TODO 修改图片时删除原来的图片
     @Transactional
-    public void editProduct() {
+    public void editProduct(long id, String name, String imgPath, float price, String seller, String telephone,
+                            String[] imgSlidePaths, String[] productSlideIds) {
+        Product product = productRepository.findOne(id);
+        product.setId(id);
+        product.setName(name);
+        if (imgPath != null) {
+            product.setImg(imgPath);
+        }
+        product.setPrice(price);
+        product.setSeller(seller);
+        product.setTelephone(telephone);
+        product.setUpdateTime(new Date());
+        product = productRepository.save(product);
 
+        productSlideService.editSlide(imgSlidePaths, productSlideIds, product);
     }
 
     @Transactional
@@ -91,16 +100,16 @@ public class ProductService {
         String subPath = productPath.substring(0, imgRealPathDir.indexOf(ImgPath.adPath));
         new File(subPath + product.getImg()).delete();
 
-        Set<ProductSlide> productSlides = product.getProductSlideSet();
+        List<ProductSlide> productSlides = product.getProductSlideList();
         for (ProductSlide productSlide : productSlides) {
             new File(subPath + productSlide.getImg()).delete();
-            productSlideRepository.delete(productSlide);
+            productSlideService.delSlide(productSlide);
 
         }
 
-        Set<ProductIntro> productIntros = product.getProductIntroSet();
+        List<ProductIntro> productIntros = product.getProductIntroList();
         for (ProductIntro productIntro : productIntros) {
-            productIntroRepository.delete(productIntro);
+            productIntroService.delIntro(productIntro);
         }
     }
 }
