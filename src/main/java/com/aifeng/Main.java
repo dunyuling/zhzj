@@ -127,7 +127,7 @@ public class Main {
         body.add("v", v);
         body.add("data", "data");
         body.add("sign", getSign(key,timeStamp,plat,v,data));
-        body.add("ip","gov");
+        body.add("ip","religion");
 
         HttpEntity<?> entity = new HttpEntity<>(body,httpHeaders);
         ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/information.json",HttpMethod.POST, entity,String.class);

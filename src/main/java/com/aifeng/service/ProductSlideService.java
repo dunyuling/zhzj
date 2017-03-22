@@ -27,7 +27,7 @@ public class ProductSlideService {
     }
 
     @Transactional
-    public void saveSlide(String[] imgPaths, Product product) {
+    void saveSlide(String[] imgPaths, Product product) {
         for (String imgPath : imgPaths) {
             ProductSlide productSlide = new ProductSlide();
             productSlide.setImg(imgPath);
@@ -39,18 +39,18 @@ public class ProductSlideService {
     }
 
     @Transactional
-    public List<ProductSlide> getByProduct(Product product) {
+    List<ProductSlide> getByProduct(Product product) {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         return productSlideRepository.findAllByProduct(product, sort);
     }
 
     @Transactional
-    public void delSlide(ProductSlide productSlide) {
+    void delSlide(ProductSlide productSlide) {
         productSlideRepository.delete(productSlide);
     }
 
     @Transactional
-    public void editSlide(String[] imgPaths, String[] imgIds, Product product) {
+    void editSlide(String[] imgPaths, String[] imgIds, Product product) {
         int i = 0;
         for (String idStr : imgIds) {
             ProductSlide productSlide;

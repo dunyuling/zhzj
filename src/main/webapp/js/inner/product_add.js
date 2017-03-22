@@ -11,5 +11,10 @@ $(function () {
         // alert(input);
 
         $("#slide_zone").append(intro_slide_append);
-    })
+    });
+
+    $("#submit").click(function() {
+        var ih = $("#submit").innerHTML;
+        alert("ih: " + ih);
+    });
 });

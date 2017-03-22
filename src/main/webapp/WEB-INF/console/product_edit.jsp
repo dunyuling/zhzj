@@ -141,7 +141,5 @@
 <script type="text/javascript" src="/js/inner/product_add.js"></script>
 <!--统计代码，可删除-->
 
-
 </body>
-
 </html>

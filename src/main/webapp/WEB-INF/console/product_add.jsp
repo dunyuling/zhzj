@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: pro
-  Date: 17-3-14
-  Time: 上午11:36
-  To change this template use File | Settings | File Templates.
---%>
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -23,12 +16,14 @@
     <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
 <body class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content animated">
 
     <div class="row">
         <div class="col-sm-12">
@@ -91,6 +86,19 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品介绍：</label>
+                            <div class="col-sm-8">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-content no-padding">
+                                        <div class="summernote" id="product_intro" name="product_intro">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-7 col-sm-offset-3">
                                 <button id="submit" class="btn btn-primary" type="submit">提交</button>
@@ -133,7 +141,30 @@
 <script type="text/javascript" src="/js/inner/product_add.js"></script>
 <!--统计代码，可删除-->
 
+<!-- SUMMERNOTE -->
+<script src="/js/plugins/summernote/summernote.min.js"></script>
+<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
 
+<script>
+    $(document).ready(function () {
+
+        $('.summernote').summernote({
+            lang: 'zh-CN'
+        });
+
+    });
+    var edit = function () {
+        $("#eg").addClass("no-padding");
+        $('.click2edit').summernote({
+            lang: 'zh-CN',
+            focus: true
+        });
+    };
+    var save = function () {
+        $("#eg").removeClass("no-padding");
+        var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+        $('.click2edit').destroy();
+    };
+</script>
 </body>
-
 </html>
