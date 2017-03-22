@@ -1,5 +1,6 @@
 <%@ tag pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ tag import="java.util.List" %>
 <%@ attribute name="name" type="java.lang.String" required="true" %>
 <%@ attribute name="content" type="java.lang.String" %>
 
@@ -61,7 +62,7 @@
     	               'fontsize', //字号
     	               'paragraph', //段落格式
     	               'simpleupload', //单图上传
-//    	               'insertimage', //多图上传
+    	               'insertimage', //多图上传
     	               //'edittable', //表格属性
     	               //'edittd', //单元格属性
     	               'link', //超链接

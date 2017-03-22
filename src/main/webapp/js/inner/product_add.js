@@ -14,7 +14,7 @@ $(function () {
     });
 
     $("#submit").click(function() {
-        var ih = $("#product_intro").html();
+        var ih = $("#submit").innerHTML;
         alert("ih: " + ih);
     });
 });

@@ -6,11 +6,9 @@ import com.aifeng.ueditor.define.AppInfo;
 import com.aifeng.ueditor.define.BaseState;
 import com.aifeng.ueditor.define.FileType;
 import com.aifeng.ueditor.define.State;
-//import com.aifeng.util.PropUtil;
+import org.apache.commons.codec.binary.Base64;
 
 import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
 
 public final class Base64Uploader {
 

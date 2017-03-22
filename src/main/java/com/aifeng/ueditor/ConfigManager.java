@@ -10,10 +10,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.aifeng.ueditor.define.ActionMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.aifeng.ueditor.define.ActionMap;
 
 /**
  * 配置管理器
