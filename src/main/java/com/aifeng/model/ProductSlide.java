@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table
 @Entity
+@ToString
 public class ProductSlide {
 
     @Id
@@ -30,5 +32,6 @@ public class ProductSlide {
     private Date updateTime;
 
     @ManyToOne
+    @JsonBackReference
     private Product product;
 }

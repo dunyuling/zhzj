@@ -1,6 +1,7 @@
 package com.aifeng.controller;
 
 import com.aifeng.Util;
+import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.model.Product;
 import com.aifeng.service.ProductService;
@@ -31,7 +32,8 @@ public class ProductController {
 
     @RequestMapping("/product.do")
     public String product(Model model) {
-        model.addAttribute("products", productService.findAll());
+        //TODO 具体分页数据待指定
+        model.addAttribute("products", productService.findAll(ContentType.console, 0));
         return "product";
     }
 

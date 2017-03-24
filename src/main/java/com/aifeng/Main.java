@@ -116,26 +116,27 @@ public class Main {
         String data = "data";
 
 
-
         HttpHeaders httpHeaders = new HttpHeaders();
         List<String> list = new ArrayList<>();
-        list.add(0,"b");
-        httpHeaders.put("a",list);
+        list.add(0, "b");
+        httpHeaders.put("a", list);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("timestamp", timeStamp);
         body.add("plat", plat);
         body.add("v", v);
         body.add("data", "data");
-        body.add("sign", getSign(key,timeStamp,plat,v,data));
-        body.add("ip","religion");
+        body.add("sign", getSign(key, timeStamp, plat, v, data));
+        body.add("id", 57);
+//        body.add("type", "index");
+//        body.add("page", 0);
 
-        HttpEntity<?> entity = new HttpEntity<>(body,httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/information.json",HttpMethod.POST, entity,String.class);
+        HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/product_detail.json", HttpMethod.POST, entity, String.class);
 
         System.out.println(responseEntity);
     }
 
-    public static String getSign(String key,String timestamp,String plat,String v,String data) {
+    public static String getSign(String key, String timestamp, String plat, String v, String data) {
         String builder = key +
                 "timestamp" + timestamp +
                 "plat" + plat +

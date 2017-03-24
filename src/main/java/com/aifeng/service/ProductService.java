@@ -1,5 +1,6 @@
 package com.aifeng.service;
 
+import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.dao.ProductIntroRepository;
 import com.aifeng.dao.ProductRepository;
@@ -8,6 +9,8 @@ import com.aifeng.model.Product;
 import com.aifeng.model.ProductIntro;
 import com.aifeng.model.ProductSlide;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,10 +57,27 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findAll() {
-        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
-        return productRepository.findAll(sort);
+    public List<Product> findAll(ContentType contentType, int page) {
+        Pageable pageable = new PageRequest(page, 8, new Sort(Sort.Direction.DESC, "createTime"));
+        return productRepository.findAll(pageable).getContent();
     }
+
+    @Transactional
+    public List<Product> findAllFromMobile(ContentType contentType, int page) {
+        int pageSize = contentType == ContentType.index ? 4 : 8;
+
+//        Pageable pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "createTime"));
+//        List<Product> list = productRepository.findAll(pageable).getContent();
+
+        List<Product> list = productRepository.findByPage(pageSize, page * pageSize);
+        for (Product product : list) {
+            product.setProductSlideList(null);
+            product.setProductIntro(null);
+        }
+
+        return list;
+    }
+
 
     @Transactional
     public Product findProduct(long id) {

@@ -1,7 +1,11 @@
 package com.aifeng.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table
 @Entity
+@ToString
 public class Product {
 
     @Id
@@ -37,8 +42,12 @@ public class Product {
     private Date updateTime;
 
     @OneToMany(mappedBy = "product")
+//    @JsonIgnore
+    @JsonManagedReference
     private List<ProductSlide> productSlideList = new ArrayList<>();
 
     @OneToOne(mappedBy = "product")
+//    @JsonIgnore
+    @JsonManagedReference
     private ProductIntro productIntro;
 }
