@@ -12,12 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import static com.aifeng.constant.ImgPath.productPath;
 
@@ -39,13 +36,10 @@ public class ProductService {
     private final
     ProductSlideService productSlideService;
     private final ProductIntroService productIntroService;
-    @PersistenceContext
-    EntityManager entityManager;
-
 
     @Transactional
     public void saveProduct(String name, String imgPath, float price, String seller, String telephone,
-                            String[] imgSlidePaths) {
+                            String[] imgSlidePaths, String intro) {
         Product product = new Product();
         product.setName(name);
         product.setImg(imgPath);
@@ -56,6 +50,7 @@ public class ProductService {
         product = productRepository.save(product);
 
         productSlideService.saveSlide(imgSlidePaths, product);
+        productIntroService.saveIntro(intro, product);
     }
 
     @Transactional
@@ -71,14 +66,14 @@ public class ProductService {
 //        Hibernate.initialize();
         List<ProductSlide> productSlides = productSlideService.getByProduct(product);
         product.setProductSlideList(productSlides);
-//        Hibernate.initialize(product.getProductSlideSet());
+
         return product;
     }
 
     //TODO 修改图片时删除原来的图片
     @Transactional
     public void editProduct(long id, String name, String imgPath, float price, String seller, String telephone,
-                            String[] imgSlidePaths, String[] productSlideIds) {
+                            String[] imgSlidePaths, String[] productSlideIds, long introId, String intro) {
         Product product = productRepository.findOne(id);
         product.setId(id);
         product.setName(name);
@@ -92,6 +87,7 @@ public class ProductService {
         product = productRepository.save(product);
 
         productSlideService.editSlide(imgSlidePaths, productSlideIds, product);
+        productIntroService.editIntro(introId, intro);
     }
 
     @Transactional
@@ -107,9 +103,7 @@ public class ProductService {
 
         }
 
-        List<ProductIntro> productIntros = product.getProductIntroList();
-        for (ProductIntro productIntro : productIntros) {
-            productIntroService.delIntro(productIntro);
-        }
+        ProductIntro productIntro = product.getProductIntro();
+        productIntroService.delIntro(productIntro);
     }
 }

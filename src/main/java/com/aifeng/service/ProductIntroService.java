@@ -1,18 +1,13 @@
 package com.aifeng.service;
 
 import com.aifeng.dao.ProductIntroRepository;
-import com.aifeng.dao.ProductSlideRepository;
 import com.aifeng.model.Product;
 import com.aifeng.model.ProductIntro;
-import com.aifeng.model.ProductSlide;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by pro on 17-3-21.
@@ -28,10 +23,23 @@ public class ProductIntroService {
     }
 
     @Transactional
-    public void saveIntro(String[] imgPaths, Product product) {
-
+    public void saveIntro(String intro, Product product) {
+        ProductIntro productIntro = new ProductIntro();
+        productIntro.setHtmlFrag(intro);
+        productIntro.setCreateTime(new Date());
+        productIntro.setProduct(product);
+        productIntroRepository.save(productIntro);
     }
 
+    @Transactional
+    public void editIntro(long id, String intro) {
+        ProductIntro productIntro = productIntroRepository.findOne(id);
+        productIntro.setHtmlFrag(intro);
+        productIntro.setUpdateTime(new Date());
+        productIntroRepository.save(productIntro);
+    }
+
+    //TODO how to delete image
     @Transactional
     public void delIntro(ProductIntro productIntro) {
         productIntroRepository.delete(productIntro);

@@ -5,6 +5,7 @@ import com.aifeng.constant.ImgPath;
 import com.aifeng.model.Product;
 import com.aifeng.service.ProductService;
 import com.aifeng.service.ProductSlideService;
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,8 +49,9 @@ public class ProductController {
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
             String[] imgSlidePaths = Util.uploadImgs(request, ImgPath.productSlidePath);
+            String intro = request.getParameter("remark");
 
-            productService.saveProduct(name, imgPath, price, seller, telephone, imgSlidePaths);
+            productService.saveProduct(name, imgPath, price, seller, telephone, imgSlidePaths, intro);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,10 +79,13 @@ public class ProductController {
             float price = Float.parseFloat(request.getParameter("price"));
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
-            String[] imgSlidePaths = Util.editImgs(request, ImgPath.productSlidePath);
 
+            String[] imgSlidePaths = Util.editImgs(request, ImgPath.productSlidePath);
             String[] productSlideIds = request.getParameterValues("product_slide_id");
-            productService.editProduct(id, name, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds);
+
+            long introId = Long.parseLong(request.getParameter("intro_id"));
+            String intro = request.getParameter("remark");
+            productService.editProduct(id, name, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds, introId, intro);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,7 +2,7 @@
  * Created by pro on 17-3-21.
  */
 $(function () {
-    $("button[name^=product_intro_add]").click(function () {
+    $("button[name^=product_slide_add]").click(function () {
         var intro_slide_append = $("div[name=slide_append]").html();
         // alert(intro_slide_append);
         var children_length = $("#slide_zone div[class='form-group']").length + 1;
@@ -13,8 +13,8 @@ $(function () {
         $("#slide_zone").append(intro_slide_append);
     });
 
-    $("#submit").click(function() {
-        var ih = $("#submit").innerHTML;
-        alert("ih: " + ih);
-    });
+    var intro = $("#product_intro_1").text();
+    if(intro != null) {
+        $("#container").val(intro);
+    }
 });

@@ -1,16 +1,12 @@
 package com.aifeng.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pro on 17-3-10.
@@ -43,8 +39,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ProductSlide> productSlideList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductIntro> productIntroList = new ArrayList<>();
-
-
+    @OneToOne(mappedBy = "product")
+    private ProductIntro productIntro;
 }

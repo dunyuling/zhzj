@@ -25,7 +25,7 @@
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-
+    <%@taglib prefix="cs" tagdir="/WEB-INF/tags" %>
 </head>
 
 <body class="gray-bg">
@@ -97,6 +97,15 @@
                                 </div>
                             </c:forEach>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品介绍：</label>
+                            <div class="col-sm-8">
+                                <cs:wordedit name="产品介绍"/>
+                            </div>
+                        </div>
+                        <input type="hidden" name="intro_id" id="intro_id" value="${product.productIntro.id}"/>
+                        <textarea hidden id="product_intro_1">${product.productIntro.htmlFrag}</textarea>
 
                         <div class="form-group">
                             <div class="col-sm-7 col-sm-offset-3">

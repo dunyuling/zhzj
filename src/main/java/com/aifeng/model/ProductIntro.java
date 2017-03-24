@@ -25,6 +25,6 @@ public class ProductIntro {
 
     private Date updateTime;
 
-    @ManyToOne
+    @OneToOne
     private Product product;
 }
