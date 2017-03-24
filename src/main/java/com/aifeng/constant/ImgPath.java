@@ -9,5 +9,6 @@ public class ImgPath {
     public static String productPath = "/img/product";
     public static String productSlidePath = "/img/product/slide";
     public static String productIntroPath = "/img/product/intro";
+    public static String conferenceHallPath = "/img/conferenceHall";
 
 }

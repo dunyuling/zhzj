@@ -10,11 +10,18 @@ import java.util.List;
 /**
  * Created by pro on 17-3-14.
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class AdResponse extends BaseResponse<Ad> {
+public class AdResponse /* extends BaseResponse<Ad> */{
 
+    public int code;
+    public String msg;
     private List<Ad> data;
+
+    public void config(int code, String msg, List<Ad> data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
 
 }

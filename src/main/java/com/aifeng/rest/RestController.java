@@ -3,15 +3,16 @@ package com.aifeng.rest;
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.InformationPublisher;
 import com.aifeng.constant.VerifyStatus;
+import com.aifeng.model.ConferenceHall;
 import com.aifeng.model.Information;
 import com.aifeng.model.Product;
-import com.aifeng.response.AdResponse;
-import com.aifeng.response.InformationResponse;
-import com.aifeng.response.ProductDetailResponse;
-import com.aifeng.response.ProductResponse;
+import com.aifeng.response.*;
 import com.aifeng.service.AdService;
+import com.aifeng.service.ConferenceHallService;
 import com.aifeng.service.InformationService;
 import com.aifeng.service.ProductService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pro on 17-3-14.
@@ -51,6 +56,13 @@ public class RestController {
         this.productService = productService;
     }
 
+    private ConferenceHallService conferenceHallService;
+
+    @Autowired
+    public void setConferenceHallService(ConferenceHallService conferenceHallService) {
+        this.conferenceHallService = conferenceHallService;
+    }
+
     @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -71,7 +83,7 @@ public class RestController {
     InformationResponse information(HttpServletRequest request) {
         InformationResponse informationResponse = new InformationResponse();
         try {
-            String ip = request.getParameter("ip");
+            String ip = getParamMap(request).get("ip");
             InformationPublisher informationPublisher = InformationPublisher.getIP(ip);
             informationResponse.config(1, "success", informationService.findAll(informationPublisher, VerifyStatus.审核通过));
         } catch (Exception e) {
@@ -86,7 +98,9 @@ public class RestController {
     @ResponseBody
     void informationVisit(HttpServletRequest request) {
         try {
-            long id = Long.parseLong(request.getParameter("id"));
+            Map<String, String> paramMap = getParamMap(request);
+            long id = Long.parseLong(paramMap.get("id"));
+
             Information information = informationService.findInformation(id);
             information.setVisitTimes(information.getVisitTimes() + 1);
             informationService.saveInformation(information);
@@ -101,8 +115,9 @@ public class RestController {
     ProductResponse product(HttpServletRequest request) {
         ProductResponse productResponse = new ProductResponse();
         try {
-            ContentType contentType = ContentType.valueOf(request.getParameter("type"));
-            int page = Integer.parseInt(request.getParameter("page"));
+            Map<String, String> paramMap = getParamMap(request);
+            ContentType contentType = ContentType.valueOf(paramMap.get("type"));
+            int page = Integer.parseInt(paramMap.get("page"));
             List<Product> productList = productService.findAllFromMobile(contentType, page);
             productResponse.config(1, "success", productList);
         } catch (Exception e) {
@@ -112,15 +127,15 @@ public class RestController {
         return productResponse;
     }
 
-    @RequestMapping(value = "/product_detail", method = RequestMethod.POST)
+    @RequestMapping(value = "/product_detail.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    ProductDetailResponse productDetail(HttpServletRequest request) {
-        ProductDetailResponse productDetailResponse = new ProductDetailResponse();
+    ProductResponse productDetail(HttpServletRequest request) {
+        ProductResponse productDetailResponse = new ProductResponse();
         try {
-            long id = Long.parseLong(request.getParameter("id"));
+            Map<String, String> paramMap = getParamMap(request);
+            long id = Long.parseLong(paramMap.get("id"));
             Product product = productService.findProduct(id);
-
             List<Product> productList = new ArrayList<>();
             productList.add(product);
 
@@ -130,5 +145,43 @@ public class RestController {
             productDetailResponse.config(0, "failure", null);
         }
         return productDetailResponse;
+    }
+
+    //TODO  分页时需给客户端总数
+    @RequestMapping(value = "/conferenceHall.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ConferenceHallResponse conferenceHall(HttpServletRequest request) {
+        ConferenceHallResponse conferenceHallResponse = new ConferenceHallResponse();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            int page = Integer.parseInt(paramMap.get("page"));
+            ContentType contentType = ContentType.valueOf(paramMap.get("type"));
+            List<ConferenceHall> conferenceHallList = conferenceHallService.findAll(contentType, page);
+            conferenceHallResponse.config(1, "success", conferenceHallList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            conferenceHallResponse.config(0, "failure", null);
+        }
+        return conferenceHallResponse;
+    }
+
+    private Map<String, String> getParamMap(HttpServletRequest request) {
+        String data = request.getParameter("data");
+        return jsonStringToMap(data);
+    }
+
+    private Map<String, String> jsonStringToMap(String json) {
+        Map<String, String> map = new HashMap<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            // convert JSON string to Map
+            map = mapper.readValue(json, new TypeReference<Map<String, String>>() {
+            });
+            System.out.println(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 }

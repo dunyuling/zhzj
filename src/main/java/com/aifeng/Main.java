@@ -1,6 +1,11 @@
 package com.aifeng;
 
 import com.aifeng.constant.InformationPublisher;
+import com.aifeng.response.AdResponse;
+import com.aifeng.response.ProductResponse;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -14,10 +19,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pro on 17-3-7.
@@ -103,6 +111,11 @@ public class Main {
             }
         }*/
         testTemplate();
+
+
+//        AdResponse adResponse = new AdResponse();
+
+
     }
 
     public static void testTemplate() {
@@ -113,7 +126,7 @@ public class Main {
         String timeStamp = String.valueOf(System.currentTimeMillis());
         String plat = "android";
         String v = "1.0";
-        String data = "data";
+        String data = getJsonFromMap();
 
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -124,16 +137,32 @@ public class Main {
         body.add("timestamp", timeStamp);
         body.add("plat", plat);
         body.add("v", v);
-        body.add("data", "data");
+        body.add("data", getJsonFromMap());
         body.add("sign", getSign(key, timeStamp, plat, v, data));
-        body.add("id", 57);
-//        body.add("type", "index");
-//        body.add("page", 0);
+//        body.add("id", 57);
+
 
         HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/product_detail.json", HttpMethod.POST, entity, String.class);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/conferenceHall.json", HttpMethod.POST, entity, String.class);
 
         System.out.println(responseEntity);
+    }
+
+    public static String getJsonFromMap() {
+        String json = "";
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> map = new HashMap<>();
+            map.put("type", "index");
+            map.put("page", 0);
+
+            // convert map to JSON string
+            json = mapper.writeValueAsString(map);
+            System.out.println(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 
     public static String getSign(String key, String timestamp, String plat, String v, String data) {

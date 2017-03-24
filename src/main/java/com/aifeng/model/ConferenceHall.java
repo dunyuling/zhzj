@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by pro on 17-3-10.
@@ -30,7 +31,7 @@ public class ConferenceHall { //会场门票
     @Enumerated(EnumType.STRING)
     private ReligionType religionType;
 
-    private String createTime;
+    private Date createTime;
 
-    private String updateTime;
+    private Date updateTime;
 }

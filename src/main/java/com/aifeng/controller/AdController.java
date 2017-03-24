@@ -30,7 +30,11 @@ public class AdController {
 
     @RequestMapping("/ad.do")
     public String ad(Model model) {
-        model.addAttribute("ads", adService.findAll());
+        try {
+            model.addAttribute("ads", adService.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "ad";
     }
 
@@ -41,41 +45,55 @@ public class AdController {
 
     @RequestMapping("/ad_add.do")
     public String adAdd(HttpServletRequest request) {
-        String imgName = Util.uploadImg(request, ImgPath.adPath);
-        String name = request.getParameter("name");
-        String imgRelativePath = ImgPath.adPath + File.separator + imgName;
-        String redirectionTypeStr = request.getParameter("redirectionType");
-        String innerRedirectionType = request.getParameter("innerRedirectionType");
-        String externalLink = request.getParameter("externalLink");
-        adService.saveAd(name, imgRelativePath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+        try {
+            String imgPath = Util.uploadImg(request, ImgPath.adPath);
+            String name = request.getParameter("name");
+            String redirectionTypeStr = request.getParameter("redirectionType");
+            String innerRedirectionType = request.getParameter("innerRedirectionType");
+            String externalLink = request.getParameter("externalLink");
+            adService.saveAd(name, imgPath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/ad.do";
     }
 
     @RequestMapping("/ad_toEdit.do")
     public String adToEdit(HttpServletRequest request, Model model) {
-        long id = Long.parseLong(request.getParameter("id"));
-        model.addAttribute("ad", adService.findAd(id));
+        try {
+            long id = Long.parseLong(request.getParameter("id"));
+            model.addAttribute("ad", adService.findAd(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "ad_edit";
     }
 
     @RequestMapping("/ad_edit.do")
     public String adEdit(HttpServletRequest request) {
-        String imgRelativePath = Util.editImg(request, ImgPath.adPath);
-        long id = Long.parseLong(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String redirectionTypeStr = request.getParameter("redirectionType");
-        String innerRedirectionType = request.getParameter("innerRedirectionType");
-        String externalLink = request.getParameter("externalLink");
-        adService.editAd(id, name, imgRelativePath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+        try {
+            String imgRelativePath = Util.editImg(request, ImgPath.adPath);
+            long id = Long.parseLong(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String redirectionTypeStr = request.getParameter("redirectionType");
+            String innerRedirectionType = request.getParameter("innerRedirectionType");
+            String externalLink = request.getParameter("externalLink");
+            adService.editAd(id, name, imgRelativePath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/ad.do";
     }
 
     @RequestMapping("/ad_del")
     public String adDel(HttpServletRequest request) {
-        String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.adPath);
-        long id = Long.parseLong(request.getParameter("id"));
-        adService.delAd(imgRealPathDir, id);
-
+        try {
+            String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.adPath);
+            long id = Long.parseLong(request.getParameter("id"));
+            adService.delAd(imgRealPathDir, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/ad.do";
     }
 

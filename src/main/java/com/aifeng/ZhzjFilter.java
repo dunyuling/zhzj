@@ -20,22 +20,25 @@ public class ZhzjFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest)request;
-        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String uri = httpRequest.getRequestURI();
         HttpSession session = httpRequest.getSession(false);
 
-        if(uri.contains("mobile")) {
-            chain.doFilter(request,response);
+        if (uri.contains("mobile")) {
+            chain.doFilter(request, response);
         } else {
             if (session == null && !uri.endsWith("toLogin.do")) {
                 httpResponse.sendRedirect("/toLogin.do");
+            } else if (uri.endsWith(".jpg") || uri.endsWith(".png")) {
+                //TODO 静态资源不再通过 tomcat 部署时使用 nginx
+                chain.doFilter(request, response);
             } else {
-                if((uri.endsWith("login.do")) && ((HttpServletRequest) request).getMethod().equals(HttpMethod.GET.toString())) {
+                if ((uri.endsWith("login.do")) && ((HttpServletRequest) request).getMethod().equals(HttpMethod.GET.toString())) {
                     httpResponse.sendRedirect("/index.do");
                 } else {
-                    chain.doFilter(request,response);
+                    chain.doFilter(request, response);
                 }
             }
         }

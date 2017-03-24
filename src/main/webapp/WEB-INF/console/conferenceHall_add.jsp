@@ -38,42 +38,35 @@
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" enctype="multipart/form-data"
-                          method="post" action="/ad_edit.do">
+                          method="post" action="/conferenceHall_add.do">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称：</label>
                             <div class="col-sm-7">
-                                <input name="name" class="form-control" type="text" value="${ad.name}"  required>
-                                <input name="id" type="hidden" value="${ad.id}" />
+                                <input name="name" class="form-control" type="text" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">地址：</label>
+                            <div class="col-sm-7">
+                                <input name="address" class="form-control" type="text" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="file"
+                                <input name="img" type="file" required
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
-                        <input id="redirectionType_" name="redirectionType_" type="hidden" value="${ad.redirectionType}">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">跳转类型：</label>
+                            <label class="col-sm-3 control-label">所属宗教：</label>
                             <div class="col-sm-7">
-                                <select id="redirectionType" class="form-control" name="redirectionType">
-                                    <option value="不跳转">不跳转</option>
-                                    <option value="内部跳转">内部跳转</option>
-                                    <option value="外部跳转">外部跳转</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div id="innerDirectionTypeZone" class="form-group">
-                            <label class="col-sm-3 control-label">内部跳转类型：</label>
-                            <div class="col-sm-7">
-                                <input id="innerRedirectionType_" type="hidden" value="${ad.innerRedirectionType}">
-                                <select id="innerRedirectionType" class="form-control" name="innerRedirectionType">
-                                    <option value="资讯">资讯</option>
-                                    <option value="商品">商品</option>
-                                    <option value="门票">门票</option>
-                                    <option value="评选">评选</option>
+                                <select id="religionType" class="form-control" name="religionType">
+                                    <option>佛教</option>
+                                    <option>道教</option>
+                                    <option>基督教</option>
+                                    <option>天主教</option>
+                                    <option>伊斯兰教</option>
                                 </select>
                             </div>
                         </div>
@@ -81,7 +74,7 @@
                         <div id="externalLinkZone" class="form-group">
                             <label class="col-sm-3 control-label">外部链接：</label>
                             <div class="col-sm-7">
-                                <input name="externalLink"   type="url" value="${ad.externalLink}"
+                                <input name="externalLink" type="url" id="externalLink"
                                        aria-required="true" placeholder="外链接" aria-invalid="false" class="valid">
                             </div>
                         </div>
@@ -116,7 +109,6 @@
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 <!--统计代码，可删除-->
 
-<script src="/js/inner/ad_edit.js"></script>
 </body>
 
 </html>

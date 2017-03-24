@@ -29,19 +29,19 @@ public class AdService {
     }
 
     @Transactional
-    public void saveAd(String name, String imgPath, RedirectionType redirectionType,String innerRedirectionType,
+    public void saveAd(String name, String imgPath, RedirectionType redirectionType, String innerRedirectionType,
                        String externalLink) {
         Ad ad = new Ad();
         ad.setName(name);
         ad.setImg(imgPath);
-        ad.setIndex((int)adRepository.count() + 1);
-        setDirectionType(ad,redirectionType,innerRedirectionType,externalLink);
+        ad.setIndex((int) adRepository.count() + 1);
+        setDirectionType(ad, redirectionType, innerRedirectionType, externalLink);
         adRepository.save(ad);
     }
 
     @Transactional
     public List<Ad> findAll() {
-        Sort sort = new Sort(Sort.Direction.DESC,"index");
+        Sort sort = new Sort(Sort.Direction.DESC, "index");
         return adRepository.findAll(sort);
     }
 
@@ -53,19 +53,19 @@ public class AdService {
 
     //TODO 修改图片时删除原来的图片
     @Transactional
-    public void editAd(long id, String name, String imgPath, RedirectionType redirectionType,String innerRedirectionType,
+    public void editAd(long id, String name, String imgPath, RedirectionType redirectionType, String innerRedirectionType,
                        String externalLink) {
         Ad ad = adRepository.findOne(id);
         ad.setName(name);
-        if(imgPath != null) {
+        if (imgPath != null) {
             ad.setImg(imgPath);
         }
-        setDirectionType(ad,redirectionType,innerRedirectionType,externalLink);
+        setDirectionType(ad, redirectionType, innerRedirectionType, externalLink);
         ad.setUpdateTime(new Date());
         adRepository.save(ad);
     }
 
-    private void setDirectionType(Ad ad,RedirectionType redirectionType,String innerRedirectionType,
+    private void setDirectionType(Ad ad, RedirectionType redirectionType, String innerRedirectionType,
                                   String externalLink) {
         ad.setRedirectionType(redirectionType);
         if (redirectionType == RedirectionType.外部跳转) {
@@ -81,9 +81,9 @@ public class AdService {
     }
 
     @Transactional
-    public void delAd(String imgRealPathDir,long id) {
+    public void delAd(String imgRealPathDir, long id) {
         Ad ad = adRepository.findOne(id);
-        String realPath = imgRealPathDir.substring(0,imgRealPathDir.indexOf(ImgPath.adPath)) + ad.getImg();
+        String realPath = imgRealPathDir.substring(0, imgRealPathDir.indexOf(ImgPath.adPath)) + ad.getImg();
         new File(realPath).delete();
         System.out.println("realPath: " + realPath);
         adRepository.delete(ad);

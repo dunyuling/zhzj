@@ -1,5 +1,6 @@
 package com.aifeng.service;
 
+import com.aifeng.constant.Constants;
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.dao.ProductIntroRepository;
@@ -64,7 +65,7 @@ public class ProductService {
 
     @Transactional
     public List<Product> findAllFromMobile(ContentType contentType, int page) {
-        int pageSize = contentType == ContentType.index ? 4 : 8;
+        int pageSize = contentType == ContentType.index ? Constants.MobileIndex : Constants.NotMobileIndex;
 
 //        Pageable pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "createTime"));
 //        List<Product> list = productRepository.findAll(pageable).getContent();
