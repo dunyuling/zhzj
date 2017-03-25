@@ -10,8 +10,7 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pro on 17-3-14.
@@ -105,7 +104,7 @@ public class Util {
         return paths;
     }
 
-    public static String[] editImgs(HttpServletRequest request,String realPath) {
+    public static String[] editImgs(HttpServletRequest request, String realPath) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
         mkDir(imgRealPathDir);
@@ -118,7 +117,7 @@ public class Util {
                 int i = 0;
                 paths = new String[multipartFiles.size()];
                 for (MultipartFile multipartFile : multipartFiles) {
-                    if(!multipartFile.isEmpty()) {
+                    if (!multipartFile.isEmpty()) {
                         String imgName = multipartFile.getOriginalFilename();
                         String fullPath = imgRealPathDir + File.separator + imgName;
 
@@ -159,5 +158,31 @@ public class Util {
             imgRelativePath = realPath + File.separator + multipartFile.getOriginalFilename();
         }
         return imgRelativePath;
+    }
+
+    //TODO 删除这次没被选中的
+    public Collection<Long> getToDelete(List<Long> old, List<Long> current) {
+        Collection<Long> max, min;
+
+        Collection<Long> toDel = new LinkedList<>();
+        Collection<Long> toAdd = new LinkedList<>();
+
+        if (old.size() > current.size()) {
+            max = old;
+            min = current;
+        } else {
+            max = current;
+            min = old;
+        }
+
+
+
+        Map<Object, Long> map = new HashMap<>(max.size());
+        for (Object obj : max) {
+
+        }
+
+
+        return null;
     }
 }

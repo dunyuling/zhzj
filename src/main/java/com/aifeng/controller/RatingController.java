@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServletRequest;
  * Created by pro on 17-3-21.
  */
 @Controller
-public class ProductController {
+public class RatingController {
 
     private final
     ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public RatingController(ProductService productService) {
         this.productService = productService;
     }
 

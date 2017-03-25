@@ -19,10 +19,15 @@ public class RatingObj {
     @GeneratedValue
     private long id;
 
-    @Column
-    private String name;
+    @ManyToOne
+    private Rating rating;
+
+    @OneToOne
+    private Believer believer;
+
+    @OneToOne
+    private ConferenceHall conferenceHall;
 
     @OneToOne(mappedBy = "ratingObj")
-
     private RatingResult ratingResult;
 }

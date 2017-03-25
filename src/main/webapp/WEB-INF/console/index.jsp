@@ -50,7 +50,7 @@
                         </li>
                         <li><a class="J_menuItem" href="/conferenceHall.do">会场管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="social_feed.html">评比管理</a>
+                        <li><a class="J_menuItem" href="/rating.do">评比管理</a>
                         </li>
                         <li><a class="J_menuItem" href="faq.html">用户管理</a>
                         </li>

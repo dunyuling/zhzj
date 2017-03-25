@@ -19,12 +19,7 @@ public class RatingResult {
     private long id;
 
     @OneToOne
-    private Rating rating;
-
-    @OneToOne
     private RatingObj ratingObj;
 
     private int ticketNum;
-
-
 }
