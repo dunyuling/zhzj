@@ -52,9 +52,9 @@
                         </li>
                         <li><a class="J_menuItem" href="social_feed.html">评比管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="calendar.html">通知管理</a>
-                        </li>
                         <li><a class="J_menuItem" href="faq.html">用户管理</a>
+                        </li>
+                        <li><a class="J_menuItem" href="calendar.html">通知管理</a>
                         </li>
                         <li><a class="J_menuItem" href="pin_board.html">权限管理</a>
                         </li>

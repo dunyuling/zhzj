@@ -47,6 +47,21 @@
                                 <input name="id" value="${product.id}" type="hidden"/>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">所属宗教：</label>
+                            <div class="col-sm-7">
+                                <input id="religionType_" type="hidden" value="${product.religionType}">
+                                <select id="religionType" class="form-control" name="religionType">
+                                    <option value="佛教">佛教</option>
+                                    <option value="道教">道教</option>
+                                    <option value="基督教">基督教</option>
+                                    <option value="天主教">天主教</option>
+                                    <option value="伊斯兰教">伊斯兰教</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">

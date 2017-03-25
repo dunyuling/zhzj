@@ -3,6 +3,7 @@ package com.aifeng.service;
 import com.aifeng.constant.Constants;
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
+import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.ProductIntroRepository;
 import com.aifeng.dao.ProductRepository;
 import com.aifeng.dao.ProductSlideRepository;
@@ -42,10 +43,11 @@ public class ProductService {
     private final ProductIntroService productIntroService;
 
     @Transactional
-    public void saveProduct(String name, String imgPath, float price, String seller, String telephone,
+    public void saveProduct(String name, ReligionType religionType, String imgPath, float price, String seller, String telephone,
                             String[] imgSlidePaths, String intro) {
         Product product = new Product();
         product.setName(name);
+        product.setReligionType(religionType);
         product.setImg(imgPath);
         product.setPrice(price);
         product.setSeller(seller);
@@ -58,8 +60,8 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findAll(ContentType contentType, int page) {
-        Pageable pageable = new PageRequest(page, 8, new Sort(Sort.Direction.DESC, "createTime"));
+    public List<Product> findAll(int page) {
+        Pageable pageable = new PageRequest(page, Constants.NotMobileIndex, new Sort(Sort.Direction.DESC, "createTime"));
         return productRepository.findAll(pageable).getContent();
     }
 
@@ -93,11 +95,12 @@ public class ProductService {
 
     //TODO 修改图片时删除原来的图片
     @Transactional
-    public void editProduct(long id, String name, String imgPath, float price, String seller, String telephone,
+    public void editProduct(long id, String name, ReligionType religionType, String imgPath, float price, String seller, String telephone,
                             String[] imgSlidePaths, String[] productSlideIds, long introId, String intro) {
         Product product = productRepository.findOne(id);
         product.setId(id);
         product.setName(name);
+        product.setReligionType(religionType);
         if (imgPath != null) {
             product.setImg(imgPath);
         }

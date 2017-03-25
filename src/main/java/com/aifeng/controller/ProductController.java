@@ -3,6 +3,7 @@ package com.aifeng.controller;
 import com.aifeng.Util;
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
+import com.aifeng.constant.ReligionType;
 import com.aifeng.model.Product;
 import com.aifeng.service.ProductService;
 import com.aifeng.service.ProductSlideService;
@@ -33,7 +34,7 @@ public class ProductController {
     @RequestMapping("/product.do")
     public String product(Model model) {
         //TODO 具体分页数据待指定
-        model.addAttribute("products", productService.findAll(ContentType.console, 0));
+        model.addAttribute("products", productService.findAll(0));
         return "product";
     }
 
@@ -47,13 +48,14 @@ public class ProductController {
         try {
             String imgPath = Util.uploadImg(request, ImgPath.productPath);
             String name = request.getParameter("name");
+            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
             float price = Float.parseFloat(request.getParameter("price"));
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
             String[] imgSlidePaths = Util.uploadImgs(request, ImgPath.productSlidePath);
             String intro = request.getParameter("remark");
 
-            productService.saveProduct(name, imgPath, price, seller, telephone, imgSlidePaths, intro);
+            productService.saveProduct(name, religionType, imgPath, price, seller, telephone, imgSlidePaths, intro);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +80,7 @@ public class ProductController {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.productPath);
             String name = request.getParameter("name");
+            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
             float price = Float.parseFloat(request.getParameter("price"));
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
@@ -87,7 +90,7 @@ public class ProductController {
 
             long introId = Long.parseLong(request.getParameter("intro_id"));
             String intro = request.getParameter("remark");
-            productService.editProduct(id, name, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds, introId, intro);
+            productService.editProduct(id, name, religionType, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds, introId, intro);
         } catch (Exception e) {
             e.printStackTrace();
         }

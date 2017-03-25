@@ -1,5 +1,6 @@
 package com.aifeng.model;
 
+import com.aifeng.constant.ReligionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -40,6 +41,9 @@ public class Product {
     private Date createTime;
 
     private Date updateTime;
+
+    @Enumerated(EnumType.STRING)
+    private ReligionType religionType;
 
     @OneToMany(mappedBy = "product")
 //    @JsonIgnore

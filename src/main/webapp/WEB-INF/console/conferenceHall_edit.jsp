@@ -66,11 +66,11 @@
                             <div class="col-sm-7">
                                 <input id="religionType_" type="hidden" value="${conferenceHall.religionType}">
                                 <select id="religionType" class="form-control" name="religionType">
-                                    <option>佛教</option>
-                                    <option>道教</option>
-                                    <option>基督教</option>
-                                    <option>天主教</option>
-                                    <option>伊斯兰教</option>
+                                    <option value="佛教">佛教</option>
+                                    <option value="道教">道教</option>
+                                    <option value="基督教">基督教</option>
+                                    <option value="天主教">天主教</option>
+                                    <option value="伊斯兰教">伊斯兰教</option>
                                 </select>
                             </div>
                         </div>

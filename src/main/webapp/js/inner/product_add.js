@@ -14,7 +14,11 @@ $(function () {
     });
 
     var intro = $("#product_intro_1").text();
-    if(intro != null) {
+    if (intro != null) {
         $("#container").val(intro);
     }
+
+    var rt_ = $("#religionType_").val();
+    alert("ss: " + rt_);
+    $("#religionType option[value='" + rt_ + "']").attr("selected", true);
 });
