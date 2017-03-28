@@ -11,5 +11,5 @@ public class ImgPath {
     public static String productIntroPath = "/img/product/intro";
     public static String conferenceHallPath = "/img/conferenceHall";
     public static String believerPhotoPath = "/img/believerPhoto";
-
+    public static String ratingPath = "/img/rating";
 }

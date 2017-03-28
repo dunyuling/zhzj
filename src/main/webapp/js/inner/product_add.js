@@ -19,6 +19,5 @@ $(function () {
     }
 
     var rt_ = $("#religionType_").val();
-    alert("ss: " + rt_);
     $("#religionType option[value='" + rt_ + "']").attr("selected", true);
 });

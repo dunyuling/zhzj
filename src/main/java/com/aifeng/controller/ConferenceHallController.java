@@ -37,6 +37,17 @@ public class ConferenceHallController {
         return "conference";
     }
 
+    @RequestMapping("/conferenceHall_select.do")
+    public String conferenceHallSelect(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        try {
+            model.addAttribute("conferenceHalls", conferenceHallService.findAll(ContentType.console, page));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "conference_select";
+//        return "select_obj";
+    }
+
     @RequestMapping("/conferenceHall_toAdd.do")
     public String conferenceHallToAdd() {
         return "conferenceHall_add";

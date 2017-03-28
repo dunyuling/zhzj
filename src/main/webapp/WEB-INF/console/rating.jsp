@@ -13,18 +13,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>会场</title>
+
+    <title>评选</title>
     <%--<meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">--%>
-
     <link rel="shortcut icon" href="favicon.ico">
     <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-
-
+    <%@taglib prefix="cs" tagdir="/WEB-INF/tags" %>
 </head>
 
 <body class="gray-bg">
@@ -35,59 +34,43 @@
 
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>所有会场</h5>
+                    <h5>所有广告</h5>
                     <div class="ibox-tools">
-                        <a href="/conferenceHall_toAdd.do" class="btn btn-primary btn-xs">创建新会场门票</a>
+                        <a href="/rating_toAdd.do" class="btn btn-primary btn-xs">创建新评选</a>
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <%--<div class="row m-b-sm m-t-sm">
-                        <div class="col-md-1">
-                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i
-                                    class="fa fa-refresh"></i> 刷新
-                            </button>
-                        </div>
-                        <div class="col-md-11">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入广告名称" class="input-sm form-control"> <span
-                                    class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                            </div>
-                        </div>
-                    </div>--%>
                     <div class="ad-list">
 
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>图片</th>
-                                <th>标题</th>
-                                <th>地址</th>
-                                <th>所属宗教</th>
+                                <th>名称</th>
+                                <th>宗教类型</th>
+                                <th>评选类型</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="conferenceHall" items="${conferenceHalls}">
+                            <c:forEach var="rating" items="${ratings}">
                                 <tr>
                                     <td class="project-people">
-                                        <a href="#"><img alt="image" class="img-responsive" src="${conferenceHall.img}"></a>
+                                        <a href="#"><img alt="image" class="img-responsive" src="${rating.img}"></a>
                                     </td>
                                     <td class="project-status">
-                                        <span class="label label-primary">${conferenceHall.name}</span>
-                                    </td>
-                                    <td class="project-status">
-                                        <span class="label label-primary">${conferenceHall.address}</span>
+                                        <span class="label label-primary">${rating.name}</span>
                                     </td>
                                     <td class="ad-title">
-                                        <a href="#">${conferenceHall.religionType}</a>
+                                        <a href="#">${rating.religionType}</a>
+                                    </td>
+                                    <td class="ad-title">
+                                        <a href="#">${rating.rt}</a>
                                     </td>
                                     <td class="ad-actions">
-                                        <a href="/conferenceHall_toEdit.do?id=${conferenceHall.id}"
-                                           class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
+                                        <a href="/rating_toEdit.do?id=${rating.id}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
                                             编辑 </a>
-                                        <a href="/conferenceHall_del.do?id=${conferenceHall.id}"
-                                           class="btn btn-white btn-sm"><i class="fa fa-times"></i>
+                                        <a href="/rating_del.do?id=${rating.id}" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
                                             删除 </a>
                                     </td>
                                 </tr>

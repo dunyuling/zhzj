@@ -112,6 +112,6 @@
     	       ],
         autoHeightEnabled: false,
         autoFloatEnabled: false,
-        initialFrameHeight:700
+        initialFrameHeight:500
     });
     </script>

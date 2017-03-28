@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pro on 17-3-10.
@@ -30,15 +28,15 @@ public class Rating {
     private String content;
 
     @Enumerated(EnumType.STRING)
+    private ReligionType religionType;
+
+    @Enumerated(EnumType.STRING)
     private RatingType rt;
 
     private Date createTime;
 
     private Date updateTime;
 
-    @OneToMany(mappedBy = "id")
-    private Set<RatingObj> ratingObjSet = new HashSet<>();
-
-    @OneToOne(mappedBy = "rating")
-    private RatingResult ratingResult;
+    @OneToMany(mappedBy = "rating")
+    private List<RatingObj> ratingObjList = new ArrayList<>();
 }

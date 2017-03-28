@@ -6,6 +6,7 @@ import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.ConferenceHallRepository;
 import com.aifeng.model.ConferenceHall;
+import com.aifeng.model.RatingObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

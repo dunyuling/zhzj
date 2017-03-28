@@ -50,7 +50,7 @@ public class Believer extends BaseUser {
     @OneToMany(mappedBy = "id")
     private Set<BelieverPath> believerPathSet = new HashSet<>();
 
-    @OneToOne(mappedBy = "believer")
+    @OneToOne(mappedBy = "believer",optional = true)
     private RatingObj ratingObj;
 
 }

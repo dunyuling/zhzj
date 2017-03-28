@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by pro on 17-3-14.
@@ -42,6 +44,7 @@ public class RatingObjService {
                     RatingObj ratingObj = new RatingObj();
                     ConferenceHall conferenceHall = conferenceHallService.findConferenceHall(id);
                     ratingObj.setConferenceHall(conferenceHall);
+                    ratingObj.setBeliever(null);
                     ratingObj.setRating(rating);
                     ratingObjRepository.save(ratingObj);
                 }
@@ -51,6 +54,7 @@ public class RatingObjService {
                     RatingObj ratingObj = new RatingObj();
                     Believer believer = believerService.findBeliever(id);
                     ratingObj.setBeliever(believer);
+                    ratingObj.setConferenceHall(null);
                     ratingObj.setRating(rating);
                     ratingObjRepository.save(ratingObj);
                 }
@@ -64,7 +68,12 @@ public class RatingObjService {
     }
 
     @Transactional
-    public List<Long> findIds(RatingType rt, Rating rating) {
+    public List<RatingObj> findRating(Rating rating) {
+        return ratingObjRepository.findByRating(rating);
+    }
+
+    @Transactional
+    public List<BigInteger> findIds(RatingType rt, Rating rating) {
         long ratingId = rating.getId();
         switch (rt) {
             case 人员:
@@ -81,25 +90,25 @@ public class RatingObjService {
     //TODO 删除这次未被选中的
     @Transactional
     public void editRatingObj(Rating rating, RatingType lastRt, RatingType rt, Long[] ratingObjReferenceIds) {
-        List<Long> list = findIds(rt, rating);
+        List<BigInteger> list = findIds(rt, rating);
 
         List<Long> toAdd = new ArrayList<>();
         for (long l : ratingObjReferenceIds) {
-            if (!list.contains(l)) toAdd.add(l);
+            if (!list.contains(BigInteger.valueOf(l))) toAdd.add(l);
         }
 
         List<Long> temp = Arrays.asList(ratingObjReferenceIds);
         List<Long> toDel = new ArrayList<>();
-        for (long l : list) {
-            if (!temp.contains(l)) {
-                toDel.add(l);
+        for (BigInteger l : list) {
+            if (!temp.contains(l.longValue())) {
+                toDel.add(l.longValue());
             }
         }
 
         if (!toAdd.isEmpty())
             saveRatingObj(rating, rt, toAdd);
 
-        if(!toDel.isEmpty()) {
+        if (!toDel.isEmpty()) {
             for (long id : toDel) {
                 RatingObj ratingObj = ratingObjRepository.findOne(id);
                 ratingResultService.delRatingResult(ratingObj);
@@ -107,4 +116,25 @@ public class RatingObjService {
             }
         }
     }
+
+    @Transactional
+    public List<BigInteger> findConferenceIds(long ratingId) {
+        return ratingObjRepository.findConferenceHallIds(ratingId);
+    }
+
+    @Transactional
+    public List<BigInteger> findBelieverIds(long ratingId) {
+        return ratingObjRepository.findBelieverIds(ratingId);
+    }
+
+    @Transactional
+    public RatingObj findConferenceRatingObj(ConferenceHall conferenceHall) {
+        return ratingObjRepository.findByConferenceHall(conferenceHall);
+    }
+
+    @Transactional
+    public RatingObj findBelieverRatingObj(Believer believer) {
+        return ratingObjRepository.findByBeliever(believer);
+    }
+
 }

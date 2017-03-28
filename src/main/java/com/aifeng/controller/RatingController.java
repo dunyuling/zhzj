@@ -1,10 +1,12 @@
 package com.aifeng.controller;
 
 import com.aifeng.Util;
+import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
+import com.aifeng.constant.RatingType;
 import com.aifeng.constant.ReligionType;
-import com.aifeng.model.Product;
-import com.aifeng.service.ProductService;
+import com.aifeng.model.Rating;
+import com.aifeng.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,85 +21,80 @@ import javax.servlet.http.HttpServletRequest;
 public class RatingController {
 
     private final
-    ProductService productService;
+    RatingService ratingService;
 
     @Autowired
-    public RatingController(ProductService productService) {
-        this.productService = productService;
+    public RatingController(RatingService ratingService) {
+        this.ratingService = ratingService;
     }
 
-
-    @RequestMapping("/product.do")
-    public String product(Model model) {
+    @RequestMapping("/rating.do")
+    public String rating(Model model) {
         //TODO 具体分页数据待指定
-        model.addAttribute("products", productService.findAll(0));
-        return "product";
+        model.addAttribute("ratings", ratingService.findAll(ContentType.console, 0));
+        return "rating";
     }
 
-    @RequestMapping("/product_toAdd.do")
-    public String productToAdd() {
-        return "product_add";
+    @RequestMapping("/rating_toAdd.do")
+    public String ratingToAdd() {
+        return "rating_add";
     }
 
-    @RequestMapping("/product_add.do")
+    @RequestMapping("/rating_add.do")
     public String productAdd(HttpServletRequest request) {
         try {
-            String imgPath = Util.uploadImg(request, ImgPath.productPath);
+            String imgPath = Util.uploadImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
             ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
-            float price = Float.parseFloat(request.getParameter("price"));
-            String seller = request.getParameter("seller");
-            String telephone = request.getParameter("telephone");
-            String[] imgSlidePaths = Util.uploadImgs(request, ImgPath.productSlidePath);
-            String intro = request.getParameter("remark");
+            String content = request.getParameter("remark");
+            RatingType rt = RatingType.valueOf(request.getParameter("rt"));
 
-            productService.saveProduct(name, religionType, imgPath, price, seller, telephone, imgSlidePaths, intro);
+            String objIds[] = request.getParameterValues("select_obj_id");
+            Long[] ids = new Long[objIds.length];
+            for (int i = 0; i < objIds.length; i++) {
+                ids[i] = Long.parseLong(objIds[i]);
+            }
+            ratingService.saveRating(name, imgPath, content, religionType, rt, ids);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do";
+        return "redirect:/rating.do";
     }
 
-    @RequestMapping("/product_toEdit.do")
+    @RequestMapping("/rating_toEdit.do")
     public String productToEdit(HttpServletRequest request, Model model) {
         try {
             long id = Long.parseLong(request.getParameter("id"));
-            Product product = productService.findProduct(id);
-            model.addAttribute("product", product);
+            Rating rating = ratingService.findRating(id);
+            model.addAttribute("rating", rating);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "product_edit";
+        return "rating_edit";
     }
 
-    @RequestMapping("/product_edit.do")
+    @RequestMapping("/rating_edit.do")
     public String productEdit(HttpServletRequest request) {
         try {
             long id = Long.parseLong(request.getParameter("id"));
-            String imgPath = Util.editImg(request, ImgPath.productPath);
+            String imgPath = Util.editImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
+            String content = request.getParameter("content");
             ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
-            float price = Float.parseFloat(request.getParameter("price"));
-            String seller = request.getParameter("seller");
-            String telephone = request.getParameter("telephone");
+            RatingType rt = RatingType.valueOf(request.getParameter("rt"));
 
-            String[] imgSlidePaths = Util.editImgs(request, ImgPath.productSlidePath);
-            String[] productSlideIds = request.getParameterValues("product_slide_id");
-
-            long introId = Long.parseLong(request.getParameter("intro_id"));
-            String intro = request.getParameter("remark");
-            productService.editProduct(id, name, religionType, imgPath, price, seller, telephone, imgSlidePaths, productSlideIds, introId, intro);
+            ratingService.editRating(id, name, imgPath, content, religionType, rt, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do";
+        return "redirect:/rating.do";
     }
 
-    @RequestMapping("/product_del.do")
+    @RequestMapping("/rating_del.do")
     public String productDel(HttpServletRequest request) {
-        String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.productPath);
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.ratingPath);
         long id = Long.parseLong(request.getParameter("id"));
-        productService.delProduct(imgRealPathDir, id);
-        return "redirect:/product.do";
+        ratingService.delRating(imgRealPathDir, id);
+        return "redirect:/rating.do";
     }
 }

@@ -36,5 +36,6 @@ public class ConferenceHall { //会场门票
     private Date updateTime;
 
     @OneToOne(mappedBy = "conferenceHall")
+
     private RatingObj ratingObj;
 }
