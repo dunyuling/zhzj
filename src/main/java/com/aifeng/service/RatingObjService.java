@@ -63,34 +63,15 @@ public class RatingObjService {
     }
 
     @Transactional
-    public RatingObj findRatingObj(long id) {
-        return ratingObjRepository.findOne(id);
+    public List<BigInteger> findIds(Rating rating) {
+        return ratingObjRepository.findIdByRating(rating);
     }
-
-    @Transactional
-    public List<RatingObj> findRating(Rating rating) {
-        return ratingObjRepository.findByRating(rating);
-    }
-
-    @Transactional
-    public List<BigInteger> findIds(RatingType rt, Rating rating) {
-        long ratingId = rating.getId();
-        switch (rt) {
-            case 人员:
-                return ratingObjRepository.findBelieverIds(ratingId);
-            case 会场:
-                return ratingObjRepository.findConferenceHallIds(ratingId);
-            default:
-                return null;
-        }
-    }
-
 
     //TODO 修改图片时删除原来的图片
     //TODO 删除这次未被选中的
     @Transactional
-    public void editRatingObj(Rating rating, RatingType lastRt, RatingType rt, Long[] ratingObjReferenceIds) {
-        List<BigInteger> list = findIds(rt, rating);
+    public void editRatingObj(Rating rating, Long[] ratingObjReferenceIds) {
+        List<BigInteger> list = findIds(rating);
 
         List<Long> toAdd = new ArrayList<>();
         for (long l : ratingObjReferenceIds) {
@@ -105,8 +86,9 @@ public class RatingObjService {
             }
         }
 
+        System.out.println("---");
         if (!toAdd.isEmpty())
-            saveRatingObj(rating, rt, toAdd);
+            saveRatingObj(rating, rating.getRt(), toAdd);
 
         if (!toDel.isEmpty()) {
             for (long id : toDel) {
@@ -123,18 +105,14 @@ public class RatingObjService {
     }
 
     @Transactional
-    public List<BigInteger> findBelieverIds(long ratingId) {
-        return ratingObjRepository.findBelieverIds(ratingId);
-    }
-
-    @Transactional
     public RatingObj findConferenceRatingObj(ConferenceHall conferenceHall) {
         return ratingObjRepository.findByConferenceHall(conferenceHall);
     }
 
     @Transactional
-    public RatingObj findBelieverRatingObj(Believer believer) {
-        return ratingObjRepository.findByBeliever(believer);
+    public void delRatingObj(long ratingObjId) {
+        RatingObj ratingObj = ratingObjRepository.findOne(ratingObjId);
+        ratingResultService.delRatingResult(ratingObj);
+        ratingObjRepository.delete(ratingObjId);
     }
-
 }

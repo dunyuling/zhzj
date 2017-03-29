@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择图片：</label>
                             <div class="col-sm-7">
-                                <input name="img" type="file" required
+                                <input name="img" type="file"
                                        aria-required="true" aria-invalid="false" class="valid" />
                             </div>
                         </div>
@@ -78,9 +78,9 @@
                             <label class="col-sm-3 control-label">评选类型：</label>
                             <div class="col-sm-7">
                                 <input type="hidden" id="rt_" name="rt_" value="${rating.rt}" />
-                                <select id="rt" class="form-control" name="rt">
-                                    <option>会场</option>
-                                    <option>人员</option>
+                                <select disabled id="rt" class="form-control" name="rt">
+                                    <option value="会场">会场</option>
+                                    <option value="人员">人员</option>
                                 </select>
                             </div>
                         </div>

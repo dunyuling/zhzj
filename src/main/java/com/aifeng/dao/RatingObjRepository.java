@@ -24,6 +24,9 @@ public interface RatingObjRepository extends JpaRepository<RatingObj, Long> {
 
     List<RatingObj> findByRating(Rating rating);
 
+    @Query(nativeQuery = true, value="select id from ratingobj where rating_id = ?1")
+    List<BigInteger> findIdByRating(Rating rating);
+
     RatingObj findByConferenceHall(ConferenceHall conferenceHall);
     RatingObj findByBeliever(Believer believer);
 }

@@ -6,10 +6,12 @@ import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.RatingType;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.model.Rating;
+import com.aifeng.model.RatingObj;
 import com.aifeng.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,13 +50,7 @@ public class RatingController {
             ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
             String content = request.getParameter("remark");
             RatingType rt = RatingType.valueOf(request.getParameter("rt"));
-
-            String objIds[] = request.getParameterValues("select_obj_id");
-            Long[] ids = new Long[objIds.length];
-            for (int i = 0; i < objIds.length; i++) {
-                ids[i] = Long.parseLong(objIds[i]);
-            }
-            ratingService.saveRating(name, imgPath, content, religionType, rt, ids);
+            ratingService.saveRating(name, imgPath, content, religionType, rt, getSelectObjIds(request));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,8 +61,9 @@ public class RatingController {
     public String productToEdit(HttpServletRequest request, Model model) {
         try {
             long id = Long.parseLong(request.getParameter("id"));
-            Rating rating = ratingService.findRating(id);
-            model.addAttribute("rating", rating);
+            ModelMap modelMap = ratingService.findRating(id);
+            model.addAttribute("rating", modelMap.get("rating"));
+            request.getSession().setAttribute("toValidIds", modelMap.get("toValidIds"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,15 +76,25 @@ public class RatingController {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
-            String content = request.getParameter("content");
+            String content = request.getParameter("remark");
             ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
-            RatingType rt = RatingType.valueOf(request.getParameter("rt"));
 
-            ratingService.editRating(id, name, imgPath, content, religionType, rt, null);
+            ratingService.editRating(id, name, imgPath, content, religionType,getSelectObjIds(request));
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            request.getSession().setAttribute("toValidIds", null);
         }
         return "redirect:/rating.do";
+    }
+
+    private Long[] getSelectObjIds(HttpServletRequest request) {
+        String objIds[] = request.getParameterValues("select_obj_id");
+        Long[] ids = new Long[objIds.length];
+        for (int i = 0; i < objIds.length; i++) {
+            ids[i] = Long.parseLong(objIds[i]);
+        }
+        return ids;
     }
 
     @RequestMapping("/rating_del.do")

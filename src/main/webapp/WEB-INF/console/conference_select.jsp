@@ -49,11 +49,36 @@
                             </tr>
                             </thead>
                             <tbody>
+
                             <c:forEach var="conferenceHall" items="${conferenceHalls}" varStatus="status">
                                 <tr>
                                     <td class="project-people">
-                                        <input type="checkbox" value="${conferenceHall.id}_${conferenceHall.name}"
-                                               name="id"/>
+                                        <c:choose>
+                                            <c:when test="${toValidIds != null && not empty toValidIds }">
+                                                <c:set var="match" value="false"/>
+                                                <c:forEach var="validId" items="${toValidIds}" varStatus="status1">
+                                                    <c:if test="${validId == conferenceHall.id}">
+                                                        <c:set var="match" value="true"/>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:choose>
+                                                    <c:when test="${match}">
+                                                        <input type="checkbox" disabled
+                                                               value="${conferenceHall.id}_${conferenceHall.name}"
+                                                               name="id"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="checkbox"
+                                                               value="${conferenceHall.id}_${conferenceHall.name}"
+                                                               name="id"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="checkbox" value="${conferenceHall.id}_${conferenceHall.name}"
+                                                       name="id"/>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </td>
                                     <td class="project-people">
                                         <a href="#"><img alt="image" class="img-responsive" src="${conferenceHall.img}"></a>
@@ -94,9 +119,9 @@
                 var id = id_.substr(0, id_.indexOf('_'));
 
                 var toAppend = "<tr class='col-sm-7'><td>" +
-                        "<input type='hidden' name='select_obj_id' value='" + id + "'>" +
-                        "<input type='text' name='select_obj_name' value='" + name + "'>" +
-                        "<a href='#times' id='select_obj_to_del'><i class='fa fa-close'></i> 删除</a>" +
+                    "<input type='hidden' name='select_obj_id' value='" + id + "'>" +
+                    "<input type='text' name='select_obj_name' value='" + name + "'>" +
+                    "<a href='#times' id='select_obj_to_del'><i class='fa fa-close'></i> 删除</a>" +
                     "</td></tr>";
                 parent.frames.iframe5.$("#select_obj_table").append(toAppend);
             });

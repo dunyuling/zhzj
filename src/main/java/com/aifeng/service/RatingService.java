@@ -1,10 +1,8 @@
 package com.aifeng.service;
 
-import com.aifeng.constant.Constants;
-import com.aifeng.constant.ContentType;
-import com.aifeng.constant.RatingType;
-import com.aifeng.constant.ReligionType;
+import com.aifeng.constant.*;
 import com.aifeng.dao.RatingRepository;
+import com.aifeng.model.Ad;
 import com.aifeng.model.ConferenceHall;
 import com.aifeng.model.Rating;
 import com.aifeng.model.RatingObj;
@@ -14,12 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
+import java.io.File;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pro on 17-3-14.
@@ -64,19 +61,22 @@ public class RatingService {
     }
 
     @Transactional
-    public Rating findRating(long id) {
+    public ModelMap findRating(long id) {
         Rating rating = ratingRepository.findOne(id);
 //        List<RatingObj> ratingObjList = ratingObjService.findRating(rating);
         List<RatingObj> ratingObjList = new ArrayList<>();
+        List<Long> toValidIds = new ArrayList<>();
+        ModelMap modelMap = new ModelMap();
 
         switch (rating.getRt()) {
             case 会场:
                 List<BigInteger> conferenceIds = ratingObjService.findConferenceIds(rating.getId());
-                for(BigInteger conferenceId : conferenceIds) {
+                for (BigInteger conferenceId : conferenceIds) {
                     ConferenceHall conferenceHall = conferenceHallService.findConferenceHall(conferenceId.longValue());
                     RatingObj ratingObj = ratingObjService.findConferenceRatingObj(conferenceHall);
                     ratingObj.setConferenceHall(conferenceHall);
                     ratingObjList.add(ratingObj);
+                    toValidIds.add(conferenceHall.getId());
                 }
                 break;
             case 人员:
@@ -88,28 +88,40 @@ public class RatingService {
 //            ratingObj.setConferenceHall(conferenceHall);
 //        }
 //        rating.setRatingObjList(ratingObjList);
-        return rating;
+
+        modelMap.put("rating", rating);
+        modelMap.put("toValidIds", toValidIds);
+        return modelMap;
     }
 
     //TODO 修改图片时删除原来的图片
     @Transactional
     public void editRating(long id, String name, String imgPath, String content,
-                           ReligionType religionType, RatingType rt, Long[] ratingObjReferenceIds) {
+                           ReligionType religionType, Long[] ratingObjReferenceIds) {
         Rating rating = ratingRepository.findOne(id);
         rating.setName(name);
-        rating.setImg(imgPath);
+        if (imgPath != null) {
+            rating.setImg(imgPath);
+        }
         rating.setContent(content);
         rating.setReligionType(religionType);
-        RatingType lastRt = rating.getRt();
-        rating.setRt(rt);
+        rating.setUpdateTime(new Date());
         rating = ratingRepository.save(rating);
 
-        ratingObjService.editRatingObj(rating, lastRt, rt, ratingObjReferenceIds);
+        ratingObjService.editRatingObj(rating, ratingObjReferenceIds);
     }
 
-    //TODO 待完善
+
     @Transactional
     public void delRating(String imgRealPathDir, long id) {
+        Rating rating = ratingRepository.findOne(id);
+        String realPath = imgRealPathDir.substring(0, imgRealPathDir.indexOf(ImgPath.ratingPath)) + rating.getImg();
+        new File(realPath).delete();
 
+        List<BigInteger> ratingObjIds = ratingObjService.findIds(rating);
+        for (BigInteger ratingObjId : ratingObjIds) {
+            ratingObjService.delRatingObj(ratingObjId.longValue());
+        }
+        ratingRepository.delete(rating);
     }
 }

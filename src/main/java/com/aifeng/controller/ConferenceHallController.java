@@ -38,14 +38,15 @@ public class ConferenceHallController {
     }
 
     @RequestMapping("/conferenceHall_select.do")
-    public String conferenceHallSelect(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+    public String conferenceHallSelect(@RequestParam(value = "page", defaultValue = "0") int page,
+                                       HttpServletRequest request, Model model) {
         try {
             model.addAttribute("conferenceHalls", conferenceHallService.findAll(ContentType.console, page));
+            model.addAttribute("toValidIds", request.getSession().getAttribute("toValidIds"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "conference_select";
-//        return "select_obj";
     }
 
     @RequestMapping("/conferenceHall_toAdd.do")

@@ -48,6 +48,8 @@ public class RatingResultService {
     @Transactional
     public void delRatingResult(RatingObj ratingObj) {
         RatingResult ratingResult = ratingResultRepository.findByRatingObj(ratingObj);
-        ratingResultRepository.delete(ratingResult);
+        if(ratingResult != null) {
+            ratingResultRepository.delete(ratingResult);
+        }
     }
 }
