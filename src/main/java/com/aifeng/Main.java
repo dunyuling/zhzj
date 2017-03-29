@@ -105,11 +105,7 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-//        testTemplate();
-//        AdResponse adResponse = new AdResponse();
-
-
-
+        testTemplate();
     }
 
     public static void testTemplate() {
@@ -147,7 +143,7 @@ public class Main {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = new HashMap<>();
-            map.put("type", "index");
+            map.put("rt", "dao");
             map.put("page", 0);
 
             // convert map to JSON string

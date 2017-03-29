@@ -54,7 +54,25 @@ public class Util {
         this.result = doClientPost(this.url, pairs.toArray(new NameValuePair[0]));
         //	System.out.println(result);
     }*/
+    public static String uploadImg(HttpServletRequest request, String realPath,String fileName) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        mkDir(imgRealPathDir);
 
+        MultipartFile multipartFile = multipartRequest.getFile(fileName);
+        String imgName = multipartFile.getOriginalFilename();
+        String fullPath = imgRealPathDir + File.separator + imgName;
+
+        System.out.println("logImageName：" + imgName);
+        File file = new File(fullPath);
+        try {
+            multipartFile.transferTo(file);
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+        }
+        return realPath + File.separator + imgName;
+
+    }
 
     public static String uploadImg(HttpServletRequest request, String realPath) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -147,6 +165,27 @@ public class Util {
 
         String imgRelativePath = null;
         MultipartFile multipartFile = multipartRequest.getFile("img");
+        if (!multipartFile.isEmpty()) {
+            String fullPath = imgRealPathDir + File.separator + multipartFile.getOriginalFilename();
+
+            File file = new File(fullPath);
+            try {
+                multipartFile.transferTo(file);
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+            imgRelativePath = realPath + File.separator + multipartFile.getOriginalFilename();
+        }
+        return imgRelativePath;
+    }
+
+    public static String editImg(HttpServletRequest request, String realPath,String fileName) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String imgRealPathDir = request.getSession().getServletContext().getRealPath(realPath);
+        Util.mkDir(imgRealPathDir);
+
+        String imgRelativePath = null;
+        MultipartFile multipartFile = multipartRequest.getFile(fileName);
         if (!multipartFile.isEmpty()) {
             String fullPath = imgRealPathDir + File.separator + multipartFile.getOriginalFilename();
 

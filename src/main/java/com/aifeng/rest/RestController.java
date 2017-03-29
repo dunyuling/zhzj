@@ -32,9 +32,10 @@ public class RestController {
     private AdService adService;
 
     @Autowired
-    public RestController(RatingService ratingService, CreedService creedService) {
+    public RestController(RatingService ratingService, CreedService creedService, ScriptureService scriptureService) {
         this.ratingService = ratingService;
         this.creedService = creedService;
+        this.scriptureService = scriptureService;
     }
 
     @Autowired
@@ -68,6 +69,8 @@ public class RestController {
     }
 
     private final CreedService creedService;
+
+    private final ScriptureService scriptureService;
 
     @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
     public
@@ -122,7 +125,7 @@ public class RestController {
         ProductResponse productResponse = new ProductResponse();
         try {
             Map<String, String> paramMap = getParamMap(request);
-            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
             int page = Integer.parseInt(paramMap.get("page"));
             List<Product> productList = productService.findAllFromMobile(religionType, page);
             productResponse.config(1, "success", productList);
@@ -162,7 +165,7 @@ public class RestController {
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.valueOf(paramMap.get("type"));
+            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
             List<ConferenceHall> conferenceHallList = conferenceHallService.findAll(religionType, page);
             conferenceHallResponse.config(1, "success", conferenceHallList);
         } catch (Exception e) {
@@ -180,7 +183,7 @@ public class RestController {
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.valueOf(paramMap.get("type"));
+            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
             List<Rating> list = ratingService.findAll(ContentType.mobile, religionType, page);
             ratingResponse.config(1, "success", list);
         } catch (Exception e) {
@@ -198,7 +201,7 @@ public class RestController {
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
             List<Creed> list = creedService.findAll(religionType, page);
             creedResponse.config(1, "success", list);
         } catch (Exception e) {
@@ -206,6 +209,24 @@ public class RestController {
             creedResponse.config(0, "failure", null);
         }
         return creedResponse;
+    }
+
+    @RequestMapping(value = "/scripture.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ScriptureResponse scripture(HttpServletRequest request) {
+        ScriptureResponse scriptureResponse = new ScriptureResponse();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            int page = Integer.parseInt(paramMap.get("page"));
+            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+            List<Scripture> list = scriptureService.findAll(religionType, page);
+            scriptureResponse.config(1, "success", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            scriptureResponse.config(0, "failure", null);
+        }
+        return scriptureResponse;
     }
 
     private Map<String, String> getParamMap(HttpServletRequest request) {

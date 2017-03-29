@@ -23,7 +23,7 @@ public class Creed { //教义
 
     private String content;
 
-    private String type; //TODO 忘记了具体含义
+//    private String type; //TODO 忘记了具体含义
 
     @Enumerated(EnumType.STRING)
     private ReligionType religionType;

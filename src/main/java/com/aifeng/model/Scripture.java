@@ -17,13 +17,15 @@ public class Scripture { //经文
     @GeneratedValue
     private long id;
 
-    private String img;
+    private String coverImg;
 
     private String title;
 
     private String content;
 
-    private String type; //TODO 忘记了具体含义
+    private String descImg;
+
+//    private String type; //TODO 忘记了具体含义
 
     @Enumerated(EnumType.STRING)
     private ReligionType religionType;

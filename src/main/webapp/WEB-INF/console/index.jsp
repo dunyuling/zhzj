@@ -54,7 +54,7 @@
                         </li>
                         <li><a class="J_menuItem" href="/creed.do">教义管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="/creed.do">经文管理</a>
+                        <li><a class="J_menuItem" href="/scripture.do">经文管理</a>
                         </li>
                         <li><a class="J_menuItem" href="faq.html">用户管理</a>
                         </li>
