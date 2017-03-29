@@ -2,7 +2,6 @@ package com.aifeng.service;
 
 import com.aifeng.constant.*;
 import com.aifeng.dao.RatingRepository;
-import com.aifeng.model.Ad;
 import com.aifeng.model.ConferenceHall;
 import com.aifeng.model.Rating;
 import com.aifeng.model.RatingObj;
@@ -53,8 +52,8 @@ public class RatingService {
     }
 
     @Transactional
-    public List<Rating> findAll(ContentType contentType, int page) {
-        int pageSize = contentType == ContentType.index ? 4 : Constants.NotMobileIndex;
+    public List<Rating> findAll(ContentType contentType, ReligionType religionType, int page) {
+        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
         List<Rating> ratings = ratingRepository.findAll(pageRequest).getContent();
@@ -62,7 +61,7 @@ public class RatingService {
         if (contentType != ContentType.console) {
             for (Rating rating : ratings) {
                 ModelMap modelMap = findRating(rating.getId());
-                rating = (Rating)modelMap.get("rating");
+                rating = (Rating) modelMap.get("rating");
                 temp.add(rating);
             }
             return temp;
@@ -73,7 +72,6 @@ public class RatingService {
     @Transactional
     public ModelMap findRating(long id) {
         Rating rating = ratingRepository.findOne(id);
-//        List<RatingObj> ratingObjList = ratingObjService.findRating(rating);
         List<RatingObj> ratingObjList = new ArrayList<>();
         List<Long> toValidIds = new ArrayList<>();
         ModelMap modelMap = new ModelMap();
@@ -117,7 +115,7 @@ public class RatingService {
 
 
     @Transactional
-    public void delRating(String imgRealPathDir, long id) {
+    public ReligionType delRating(String imgRealPathDir, long id) {
         Rating rating = ratingRepository.findOne(id);
         String realPath = imgRealPathDir.substring(0, imgRealPathDir.indexOf(ImgPath.ratingPath)) + rating.getImg();
         new File(realPath).delete();
@@ -127,5 +125,6 @@ public class RatingService {
             ratingObjService.delRatingObj(ratingObjId.longValue());
         }
         ratingRepository.delete(rating);
+        return rating.getReligionType();
     }
 }

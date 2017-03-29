@@ -1,10 +1,5 @@
 package com.aifeng;
 
-import com.aifeng.constant.InformationPublisher;
-import com.aifeng.response.AdResponse;
-import com.aifeng.response.ProductResponse;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -110,10 +105,9 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-        testTemplate();
-
-
+//        testTemplate();
 //        AdResponse adResponse = new AdResponse();
+
 
 
     }

@@ -85,7 +85,7 @@ public class AdController {
         return "redirect:/ad.do";
     }
 
-    @RequestMapping("/ad_del")
+    @RequestMapping("/ad_del.do")
     public String adDel(HttpServletRequest request) {
         try {
             String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.adPath);
@@ -97,12 +97,12 @@ public class AdController {
         return "redirect:/ad.do";
     }
 
-    @RequestMapping("/ad_up")
+    @RequestMapping("/ad_up.do")
     public String adUp() {
         return "ad";
     }
 
-    @RequestMapping("/ad_down")
+    @RequestMapping("/ad_down.do")
     public String adDown() {
         return "ad";
     }

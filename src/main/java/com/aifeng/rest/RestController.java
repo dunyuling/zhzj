@@ -2,6 +2,7 @@ package com.aifeng.rest;
 
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.InformationPublisher;
+import com.aifeng.constant.ReligionType;
 import com.aifeng.constant.VerifyStatus;
 import com.aifeng.model.*;
 import com.aifeng.response.*;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +30,12 @@ import java.util.Map;
 public class RestController {
 
     private AdService adService;
+
+    @Autowired
+    public RestController(RatingService ratingService, CreedService creedService) {
+        this.ratingService = ratingService;
+        this.creedService = creedService;
+    }
 
     @Autowired
     public void setAdService(AdService adService) {
@@ -53,13 +59,15 @@ public class RestController {
 
     private ConferenceHallService conferenceHallService;
 
-    @Autowired
+    private final
     RatingService ratingService;
 
     @Autowired
     public void setConferenceHallService(ConferenceHallService conferenceHallService) {
         this.conferenceHallService = conferenceHallService;
     }
+
+    private final CreedService creedService;
 
     @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
     public
@@ -114,9 +122,9 @@ public class RestController {
         ProductResponse productResponse = new ProductResponse();
         try {
             Map<String, String> paramMap = getParamMap(request);
-            ContentType contentType = ContentType.valueOf(paramMap.get("type"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             int page = Integer.parseInt(paramMap.get("page"));
-            List<Product> productList = productService.findAllFromMobile(contentType, page);
+            List<Product> productList = productService.findAllFromMobile(religionType, page);
             productResponse.config(1, "success", productList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,8 +162,8 @@ public class RestController {
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ContentType contentType = ContentType.valueOf(paramMap.get("type"));
-            List<ConferenceHall> conferenceHallList = conferenceHallService.findAll(contentType, page);
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("type"));
+            List<ConferenceHall> conferenceHallList = conferenceHallService.findAll(religionType, page);
             conferenceHallResponse.config(1, "success", conferenceHallList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,13 +180,32 @@ public class RestController {
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            List<Rating> list = ratingService.findAll(ContentType.index, page);
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("type"));
+            List<Rating> list = ratingService.findAll(ContentType.mobile, religionType, page);
             ratingResponse.config(1, "success", list);
         } catch (Exception e) {
             e.printStackTrace();
             ratingResponse.config(0, "failure", null);
         }
         return ratingResponse;
+    }
+
+    @RequestMapping(value = "/creed.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    CreedResponse creed(HttpServletRequest request) {
+        CreedResponse creedResponse = new CreedResponse();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            int page = Integer.parseInt(paramMap.get("page"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
+            List<Creed> list = creedService.findAll(religionType, page);
+            creedResponse.config(1, "success", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            creedResponse.config(0, "failure", null);
+        }
+        return creedResponse;
     }
 
     private Map<String, String> getParamMap(HttpServletRequest request) {
@@ -191,8 +218,7 @@ public class RestController {
         try {
             ObjectMapper mapper = new ObjectMapper();
             // convert JSON string to Map
-            map = mapper.readValue(json, new TypeReference<Map<String, String>>() {
-            });
+            map = mapper.readValue(json, new TypeReference<Map<String, String>>() {});
             System.out.println(map);
         } catch (IOException e) {
             e.printStackTrace();

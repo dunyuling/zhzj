@@ -1,7 +1,5 @@
 package com.aifeng.constant;
 
-import lombok.Data;
-
 /**
  * Created by pro on 17-3-10.
  */

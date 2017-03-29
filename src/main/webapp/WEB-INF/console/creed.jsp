@@ -11,19 +11,21 @@
 <html>
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>评选</title>
+
+    <title>教义</title>
     <%--<meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">--%>
+
     <link rel="shortcut icon" href="favicon.ico">
     <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-    <%@taglib prefix="cs" tagdir="/WEB-INF/tags" %>
 </head>
 
 <body class="gray-bg">
@@ -34,9 +36,9 @@
 
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>所有评比</h5>
+                    <h5>所有教义</h5>
                     <div class="ibox-tools">
-                        <a href="/rating_toAdd.do" class="btn btn-primary btn-xs">创建新评选</a>
+                        <a href="/creed_toAdd.do" class="btn btn-primary btn-xs">创建新教义</a>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -46,32 +48,24 @@
                             <thead>
                             <tr>
                                 <th>图片</th>
-                                <th>名称</th>
-                                <th>宗教类型</th>
-                                <th>评选类型</th>
+                                <th>标题</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="rating" items="${ratings}">
+                            <c:forEach var="creed" items="${creeds}">
                                 <tr>
                                     <td class="project-people">
-                                        <a href="#"><img alt="image" class="img-responsive" src="${rating.img}"></a>
+                                        <a href="#"><img alt="image" class="img-responsive" src="${creed.img}"></a>
                                     </td>
                                     <td class="project-status">
-                                        <span class="label label-primary">${rating.name}</span>
-                                    </td>
-                                    <td class="ad-title">
-                                        <a href="#">${rating.religionType}</a>
-                                    </td>
-                                    <td class="ad-title">
-                                        <a href="#">${rating.rt}</a>
+                                        <span class="label label-primary">${creed.title}</span>
                                     </td>
                                     <td class="ad-actions">
-                                        <a href="/rating_toEdit.do?id=${rating.id}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>
-                                            编辑 </a>
-                                        <a href="/rating_del.do?id=${rating.id}" class="btn btn-white btn-sm"><i class="fa fa-times"></i>
-                                            删除 </a>
+                                        <a href="/creed_toEdit.do?id=${creed.id}" class="btn btn-white btn-sm">
+                                            <i simpleLoad(btn, false) class="fa fa-pencil"></i> 编辑 </a>
+                                        <a href="/creed_del.do?id=${creed.id}" class="btn btn-white btn-sm">
+                                            <i class="fa fa-times"></i> 删除 </a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -98,7 +92,7 @@
 
         $('#loading-example-btn').click(function () {
             btn = $(this);
-            simpleLoad(btn, true);
+            simpleLoad(btn, true)
 
             // Ajax example
 //                $.ajax().always(function () {

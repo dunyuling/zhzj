@@ -52,6 +52,10 @@
                         </li>
                         <li><a class="J_menuItem" href="/rating.do">评比管理</a>
                         </li>
+                        <li><a class="J_menuItem" href="/creed.do">教义管理</a>
+                        </li>
+                        <li><a class="J_menuItem" href="/creed.do">经文管理</a>
+                        </li>
                         <li><a class="J_menuItem" href="faq.html">用户管理</a>
                         </li>
                         <li><a class="J_menuItem" href="calendar.html">通知管理</a>

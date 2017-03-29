@@ -1,7 +1,6 @@
 package com.aifeng.service;
 
 import com.aifeng.constant.Constants;
-import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.ProductIntroRepository;
@@ -60,24 +59,20 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findAll(int page) {
-        Pageable pageable = new PageRequest(page, Constants.NotMobileIndex, new Sort(Sort.Direction.DESC, "createTime"));
-        return productRepository.findAll(pageable).getContent();
+    public List<Product> findAll(ReligionType religionType, int page) {
+        Pageable pageable = new PageRequest(page, Constants.NotOtherIndex, new Sort(Sort.Direction.DESC, "createTime"));
+        return productRepository.findAllByReligionType(religionType, pageable).getContent();
     }
 
     @Transactional
-    public List<Product> findAllFromMobile(ContentType contentType, int page) {
-        int pageSize = contentType == ContentType.index ? Constants.MobileIndex : Constants.NotMobileIndex;
-
-//        Pageable pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.DESC, "createTime"));
-//        List<Product> list = productRepository.findAll(pageable).getContent();
+    public List<Product> findAllFromMobile(ReligionType religionType, int page) {
+        int pageSize = religionType == ReligionType.其它 ? Constants.OtherIndex : Constants.NotOtherIndex;
 
         List<Product> list = productRepository.findByPage(pageSize, page * pageSize);
         for (Product product : list) {
             product.setProductSlideList(null);
             product.setProductIntro(null);
         }
-
         return list;
     }
 
@@ -85,8 +80,6 @@ public class ProductService {
     @Transactional
     public Product findProduct(long id) {
         Product product = productRepository.findOne(id);
-//        Set<ProductSlide> slideSet = product.getProductSlideSet();
-//        Hibernate.initialize();
         List<ProductSlide> productSlides = productSlideService.getByProduct(product);
         product.setProductSlideList(productSlides);
 
@@ -115,7 +108,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void delProduct(String imgRealPathDir, long id) {
+    public ReligionType delProduct(String imgRealPathDir, long id) {
         Product product = productRepository.findOne(id);
         String subPath = productPath.substring(0, imgRealPathDir.indexOf(ImgPath.adPath));
         new File(subPath + product.getImg()).delete();
@@ -129,5 +122,6 @@ public class ProductService {
 
         ProductIntro productIntro = product.getProductIntro();
         productIntroService.delIntro(productIntro);
+        return product.getReligionType();
     }
 }

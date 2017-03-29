@@ -112,7 +112,6 @@
                                 </div>
                             </c:forEach>
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-3 control-label">产品介绍：</label>
                             <div class="col-sm-8">

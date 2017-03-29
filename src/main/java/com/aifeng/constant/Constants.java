@@ -49,6 +49,6 @@ public interface Constants {
     String AUTH_QQ = "2";
     String AUTH_SINA = "3";
 
-    int MobileIndex = 4;
-    int NotMobileIndex = 10;
+    int OtherIndex = 4;
+    int NotOtherIndex = 10;
 }

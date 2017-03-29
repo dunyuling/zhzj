@@ -123,6 +123,7 @@
                     "<input type='text' name='select_obj_name' value='" + name + "'>" +
                     "<a href='#times' id='select_obj_to_del'><i class='fa fa-close'></i> 删除</a>" +
                     "</td></tr>";
+                //TODO iframe5 maybe change
                 parent.frames.iframe5.$("#select_obj_table").append(toAppend);
             });
             parent.layer.closeAll();

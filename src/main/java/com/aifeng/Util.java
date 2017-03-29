@@ -1,6 +1,7 @@
 package com.aifeng;
 
 import com.aifeng.constant.ImgPath;
+import com.aifeng.constant.ReligionType;
 import org.apache.http.NameValuePair;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
@@ -175,8 +176,6 @@ public class Util {
             min = old;
         }
 
-
-
         Map<Object, Long> map = new HashMap<>(max.size());
         for (Object obj : max) {
 
@@ -184,5 +183,14 @@ public class Util {
 
 
         return null;
+    }
+
+    public static ReligionType getDefaultReligionType(HttpServletRequest request) {
+        String religionStr = request.getParameter("religionType");
+        return religionStr == null || religionStr.isEmpty() ? ReligionType.佛教 : ReligionType.getType(religionStr);
+    }
+
+    public static void main(String args[]) {
+        System.out.println(ReligionType.getType("fo"));
     }
 }

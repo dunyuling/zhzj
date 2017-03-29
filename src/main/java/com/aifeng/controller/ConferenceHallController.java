@@ -1,7 +1,6 @@
 package com.aifeng.controller;
 
 import com.aifeng.Util;
-import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.service.ConferenceHallService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 
 /**
  * Created by pro on 17-3-24.
@@ -28,9 +26,12 @@ public class ConferenceHallController {
     }
 
     @RequestMapping("/conferenceHall.do")
-    public String conferenceHall(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+    public String conferenceHall(@RequestParam(value = "page", defaultValue = "0") int page,
+                                 HttpServletRequest request, Model model) {
         try {
-            model.addAttribute("conferenceHalls", conferenceHallService.findAll(ContentType.console, page));
+            ReligionType religionType = Util.getDefaultReligionType(request);
+            model.addAttribute("conferenceHalls", conferenceHallService.findAll(religionType, page))
+                    .addAttribute("religionType", religionType);//TODO 要分标签管理
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +42,8 @@ public class ConferenceHallController {
     public String conferenceHallSelect(@RequestParam(value = "page", defaultValue = "0") int page,
                                        HttpServletRequest request, Model model) {
         try {
-            model.addAttribute("conferenceHalls", conferenceHallService.findAll(ContentType.console, page));
+            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            model.addAttribute("conferenceHalls", conferenceHallService.findAll(religionType, page));
             model.addAttribute("toValidIds", request.getSession().getAttribute("toValidIds"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,17 +58,18 @@ public class ConferenceHallController {
 
     @RequestMapping("/conferenceHall_add.do")
     public String conferenceHallAdd(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.conferenceHallPath);
             String name = request.getParameter("name");
             String address = request.getParameter("address");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
             String externalLink = request.getParameter("externalLink");
             conferenceHallService.saveConferenceHall(name, address, imgPath, religionType, externalLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do";
+        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
     }
 
     @RequestMapping("/conferenceHall_toEdit.do")
@@ -82,29 +85,31 @@ public class ConferenceHallController {
 
     @RequestMapping("/conferenceHall_edit.do")
     public String conferenceHallEdit(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             String imgRelativePath = Util.editImg(request, ImgPath.conferenceHallPath);
             long id = Long.parseLong(request.getParameter("id"));
             String name = request.getParameter("name");
             String address = request.getParameter("address");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
             String externalLink = request.getParameter("externalLink");
             conferenceHallService.editConferenceHall(id, name, address, imgRelativePath, religionType, externalLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do";
+        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
     }
 
     @RequestMapping("/conferenceHall_del")
     public String conferenceHallDel(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.conferenceHallPath);
             long id = Long.parseLong(request.getParameter("id"));
-            conferenceHallService.delConferenceHall(imgRealPathDir, id);
+            religionType = conferenceHallService.delConferenceHall(imgRealPathDir, id);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do";
+        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
     }
 }

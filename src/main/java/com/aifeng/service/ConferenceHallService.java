@@ -1,12 +1,10 @@
 package com.aifeng.service;
 
 import com.aifeng.constant.Constants;
-import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.ConferenceHallRepository;
 import com.aifeng.model.ConferenceHall;
-import com.aifeng.model.RatingObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,11 +42,16 @@ public class ConferenceHallService {
     }
 
     @Transactional
-    public List<ConferenceHall> findAll(ContentType contentType, int page) {
-        int pageSize = contentType == ContentType.index ? 4 : Constants.NotMobileIndex;
+    public List<ConferenceHall> findAll(ReligionType religionType, int page) {
+        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
+
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
-        return conferenceHallRepository.findAll(pageRequest).getContent();
+        if(religionType == ReligionType.其它) {
+            return conferenceHallRepository.findAll(pageRequest).getContent();
+        } else {
+            return conferenceHallRepository.findAllByReligionType(pageRequest,religionType).getContent();
+        }
     }
 
     @Transactional
@@ -73,11 +76,12 @@ public class ConferenceHallService {
     }
 
     @Transactional
-    public void delConferenceHall(String imgRealPathDir, long id) {
+    public ReligionType delConferenceHall(String imgRealPathDir, long id) {
         ConferenceHall conferenceHall = conferenceHallRepository.findOne(id);
         String realPath = imgRealPathDir.substring(0, imgRealPathDir.indexOf(ImgPath.conferenceHallPath)) + conferenceHall.getImg();
         new File(realPath).delete();
         System.out.println("realPath: " + realPath);
         conferenceHallRepository.delete(conferenceHall);
+        return conferenceHall.getReligionType();
     }
 }

@@ -28,9 +28,11 @@ public class ProductController {
 
 
     @RequestMapping("/product.do")
-    public String product(Model model) {
+    public String product(HttpServletRequest request, Model model) {
         //TODO 具体分页数据待指定
-        model.addAttribute("products", productService.findAll(0));
+        ReligionType religionType = Util.getDefaultReligionType(request);
+        model.addAttribute("products", productService.findAll(religionType, 0))
+                .addAttribute("religionType", religionType);
         return "product";
     }
 
@@ -41,10 +43,11 @@ public class ProductController {
 
     @RequestMapping("/product_add.do")
     public String productAdd(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.productPath);
             String name = request.getParameter("name");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
             float price = Float.parseFloat(request.getParameter("price"));
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
@@ -55,7 +58,7 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do";
+        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
     }
 
     @RequestMapping("/product_toEdit.do")
@@ -72,11 +75,12 @@ public class ProductController {
 
     @RequestMapping("/product_edit.do")
     public String productEdit(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.productPath);
             String name = request.getParameter("name");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
             float price = Float.parseFloat(request.getParameter("price"));
             String seller = request.getParameter("seller");
             String telephone = request.getParameter("telephone");
@@ -90,14 +94,14 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do";
+        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
     }
 
     @RequestMapping("/product_del.do")
     public String productDel(HttpServletRequest request) {
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.productPath);
         long id = Long.parseLong(request.getParameter("id"));
-        productService.delProduct(imgRealPathDir, id);
-        return "redirect:/product.do";
+        ReligionType religionType = productService.delProduct(imgRealPathDir, id);
+        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
     }
 }

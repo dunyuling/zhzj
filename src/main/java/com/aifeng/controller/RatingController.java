@@ -5,8 +5,6 @@ import com.aifeng.constant.ContentType;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.RatingType;
 import com.aifeng.constant.ReligionType;
-import com.aifeng.model.Rating;
-import com.aifeng.model.RatingObj;
 import com.aifeng.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,9 +29,10 @@ public class RatingController {
     }
 
     @RequestMapping("/rating.do")
-    public String rating(Model model) {
-        //TODO 具体分页数据待指定
-        model.addAttribute("ratings", ratingService.findAll(ContentType.console, 0));
+    public String rating(HttpServletRequest request, Model model) {
+        ReligionType religionType = Util.getDefaultReligionType(request);
+        model.addAttribute("ratings", ratingService.findAll(ContentType.console, religionType, 0))
+                .addAttribute("religionType", religionType);
         return "rating";
     }
 
@@ -44,17 +43,18 @@ public class RatingController {
 
     @RequestMapping("/rating_add.do")
     public String productAdd(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
             String content = request.getParameter("remark");
             RatingType rt = RatingType.valueOf(request.getParameter("rt"));
             ratingService.saveRating(name, imgPath, content, religionType, rt, getSelectObjIds(request));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/rating.do";
+        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
     }
 
     @RequestMapping("/rating_toEdit.do")
@@ -72,20 +72,21 @@ public class RatingController {
 
     @RequestMapping("/rating_edit.do")
     public String productEdit(HttpServletRequest request) {
+        ReligionType religionType = ReligionType.佛教;
         try {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
             String content = request.getParameter("remark");
-            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+            religionType = ReligionType.valueOf(request.getParameter("religionType"));
 
-            ratingService.editRating(id, name, imgPath, content, religionType,getSelectObjIds(request));
+            ratingService.editRating(id, name, imgPath, content, religionType, getSelectObjIds(request));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             request.getSession().setAttribute("toValidIds", null);
         }
-        return "redirect:/rating.do";
+        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
     }
 
     private Long[] getSelectObjIds(HttpServletRequest request) {
@@ -101,7 +102,7 @@ public class RatingController {
     public String productDel(HttpServletRequest request) {
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.ratingPath);
         long id = Long.parseLong(request.getParameter("id"));
-        ratingService.delRating(imgRealPathDir, id);
-        return "redirect:/rating.do";
+        ReligionType religionType = ratingService.delRating(imgRealPathDir, id);
+        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
     }
 }

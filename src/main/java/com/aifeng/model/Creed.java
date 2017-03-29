@@ -1,6 +1,5 @@
 package com.aifeng.model;
 
-import com.aifeng.constant.ReligionContentType;
 import com.aifeng.constant.ReligionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table
 @Entity
-public class ScriptureAndCreed { //经文或者教义
+public class Creed { //教义
 
     @Id
     @GeneratedValue
@@ -27,10 +26,7 @@ public class ScriptureAndCreed { //经文或者教义
     private String type; //TODO 忘记了具体含义
 
     @Enumerated(EnumType.STRING)
-    private ReligionContentType rct;
-
-    @Enumerated(EnumType.STRING)
-    private ReligionType rt;
+    private ReligionType religionType;
 
     private Date createTime;
 
