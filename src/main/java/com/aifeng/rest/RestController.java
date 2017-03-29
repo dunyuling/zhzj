@@ -3,14 +3,9 @@ package com.aifeng.rest;
 import com.aifeng.constant.ContentType;
 import com.aifeng.constant.InformationPublisher;
 import com.aifeng.constant.VerifyStatus;
-import com.aifeng.model.ConferenceHall;
-import com.aifeng.model.Information;
-import com.aifeng.model.Product;
+import com.aifeng.model.*;
 import com.aifeng.response.*;
-import com.aifeng.service.AdService;
-import com.aifeng.service.ConferenceHallService;
-import com.aifeng.service.InformationService;
-import com.aifeng.service.ProductService;
+import com.aifeng.service.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +52,9 @@ public class RestController {
     }
 
     private ConferenceHallService conferenceHallService;
+
+    @Autowired
+    RatingService ratingService;
 
     @Autowired
     public void setConferenceHallService(ConferenceHallService conferenceHallService) {
@@ -164,6 +162,23 @@ public class RestController {
             conferenceHallResponse.config(0, "failure", null);
         }
         return conferenceHallResponse;
+    }
+
+    @RequestMapping(value = "/rating.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    RatingResponse rating(HttpServletRequest request) {
+        RatingResponse ratingResponse = new RatingResponse();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            int page = Integer.parseInt(paramMap.get("page"));
+            List<Rating> list = ratingService.findAll(ContentType.index, page);
+            ratingResponse.config(1, "success", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ratingResponse.config(0, "failure", null);
+        }
+        return ratingResponse;
     }
 
     private Map<String, String> getParamMap(HttpServletRequest request) {

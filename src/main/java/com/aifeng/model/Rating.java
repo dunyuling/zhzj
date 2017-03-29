@@ -2,6 +2,7 @@ package com.aifeng.model;
 
 import com.aifeng.constant.RatingType;
 import com.aifeng.constant.ReligionType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,5 +39,6 @@ public class Rating {
     private Date updateTime;
 
     @OneToMany(mappedBy = "rating")
+    @JsonManagedReference
     private List<RatingObj> ratingObjList = new ArrayList<>();
 }

@@ -1,5 +1,7 @@
 package com.aifeng.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,14 +22,18 @@ public class RatingObj {
     private long id;
 
     @ManyToOne
+    @JsonBackReference
     private Rating rating;
 
     @OneToOne
+    @JsonManagedReference
     private Believer believer;
 
     @OneToOne
+    @JsonManagedReference
     private ConferenceHall conferenceHall;
 
     @OneToOne(mappedBy = "ratingObj")
+    @JsonManagedReference
     private RatingResult ratingResult;
 }

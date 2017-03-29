@@ -143,7 +143,7 @@ public class Main {
 
 
         HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/conferenceHall.json", HttpMethod.POST, entity, String.class);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/rating.json", HttpMethod.POST, entity, String.class);
 
         System.out.println(responseEntity);
     }

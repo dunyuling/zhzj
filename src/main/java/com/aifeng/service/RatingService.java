@@ -57,7 +57,17 @@ public class RatingService {
         int pageSize = contentType == ContentType.index ? 4 : Constants.NotMobileIndex;
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
-        return ratingRepository.findAll(pageRequest).getContent();
+        List<Rating> ratings = ratingRepository.findAll(pageRequest).getContent();
+        List<Rating> temp = new ArrayList<>();
+        if (contentType != ContentType.console) {
+            for (Rating rating : ratings) {
+                ModelMap modelMap = findRating(rating.getId());
+                rating = (Rating)modelMap.get("rating");
+                temp.add(rating);
+            }
+            return temp;
+        }
+        return ratings;
     }
 
     @Transactional
@@ -83,12 +93,6 @@ public class RatingService {
                 break;
         }
         rating.setRatingObjList(ratingObjList);
-//        for (RatingObj ratingObj : ratingObjList) {
-//            ConferenceHall conferenceHall = conferenceHallService.findConferenceHallRatingObj(ratingObj);
-//            ratingObj.setConferenceHall(conferenceHall);
-//        }
-//        rating.setRatingObjList(ratingObjList);
-
         modelMap.put("rating", rating);
         modelMap.put("toValidIds", toValidIds);
         return modelMap;

@@ -1,5 +1,6 @@
 package com.aifeng.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class RatingResult {
     private long id;
 
     @OneToOne
+    @JsonBackReference
     private RatingObj ratingObj;
 
     private int ticketNum;

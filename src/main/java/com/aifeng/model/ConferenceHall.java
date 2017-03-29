@@ -1,6 +1,7 @@
 package com.aifeng.model;
 
 import com.aifeng.constant.ReligionType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,6 @@ public class ConferenceHall { //会场门票
     private Date updateTime;
 
     @OneToOne(mappedBy = "conferenceHall")
-
+    @JsonBackReference
     private RatingObj ratingObj;
 }

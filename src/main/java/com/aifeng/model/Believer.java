@@ -1,6 +1,7 @@
 package com.aifeng.model;
 
 import com.aifeng.constant.ReligionType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,7 @@ public class Believer extends BaseUser {
     private Set<BelieverPath> believerPathSet = new HashSet<>();
 
     @OneToOne(mappedBy = "believer",optional = true)
+    @JsonBackReference
     private RatingObj ratingObj;
 
 }
