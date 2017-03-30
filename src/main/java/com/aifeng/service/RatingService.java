@@ -48,12 +48,14 @@ public class RatingService {
         rating.setCreateTime(new Date());
         rating = ratingRepository.save(rating);
 
-        ratingObjService.saveRatingObj(rating, rt, Arrays.asList(ratingObjReferenceIds));
+        if (ratingObjReferenceIds != null) {
+            ratingObjService.saveRatingObj(rating, rt, Arrays.asList(ratingObjReferenceIds));
+        }
     }
 
     @Transactional
     public List<Rating> findAll(ContentType contentType, ReligionType religionType, int page) {
-        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
+        int pageSize = religionType == ReligionType.OTHER ? 4 : Constants.NotOtherIndex;
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
         List<Rating> ratings = ratingRepository.findAll(pageRequest).getContent();
@@ -77,7 +79,7 @@ public class RatingService {
         ModelMap modelMap = new ModelMap();
 
         switch (rating.getRt()) {
-            case 会场:
+            case CONFERENCEHALL:
                 List<BigInteger> conferenceIds = ratingObjService.findConferenceIds(rating.getId());
                 for (BigInteger conferenceId : conferenceIds) {
                     ConferenceHall conferenceHall = conferenceHallService.findConferenceHall(conferenceId.longValue());
@@ -87,7 +89,7 @@ public class RatingService {
                     toValidIds.add(conferenceHall.getId());
                 }
                 break;
-            case 人员:
+            case BELIEVER:
                 break;
         }
         rating.setRatingObjList(ratingObjList);

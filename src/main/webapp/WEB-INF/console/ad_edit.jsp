@@ -53,14 +53,28 @@
                                        aria-required="true" aria-invalid="false" class="valid">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">所属宗教：</label>
+                            <div class="col-sm-7">
+                                <input id="religionType_" type="hidden" value="${product.religionType}">
+                                <select id="religionType" class="form-control" name="religionType">
+                                    <option value="BUDDHISM">佛教</option>
+                                    <option value="TAOISM">道教</option>
+                                    <option value="CHRISTIANITY">基督教</option>
+                                    <option value="CATHOLICISM">天主教</option>
+                                    <option value="ISLAMISM">伊斯兰教</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <input id="redirectionType_" name="redirectionType_" type="hidden" value="${ad.redirectionType}">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">跳转类型：</label>
                             <div class="col-sm-7">
                                 <select id="redirectionType" class="form-control" name="redirectionType">
-                                    <option value="不跳转">不跳转</option>
-                                    <option value="内部跳转">内部跳转</option>
-                                    <option value="外部跳转">外部跳转</option>
+                                    <option value="EXTERNAL">不跳转</option>
+                                    <option value="INNER">内部跳转</option>
+                                    <option value="NONE">外部跳转</option>
                                 </select>
                             </div>
                         </div>
@@ -70,10 +84,10 @@
                             <div class="col-sm-7">
                                 <input id="innerRedirectionType_" type="hidden" value="${ad.innerRedirectionType}">
                                 <select id="innerRedirectionType" class="form-control" name="innerRedirectionType">
-                                    <option value="资讯">资讯</option>
-                                    <option value="商品">商品</option>
-                                    <option value="门票">门票</option>
-                                    <option value="评选">评选</option>
+                                    <option value="INFORMATION">资讯</option>
+                                    <option value="GOODS">商品</option>
+                                    <option value="TICKET">门票</option>
+                                    <option value="RATING">评选</option>
                                 </select>
                             </div>
                         </div>

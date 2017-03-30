@@ -3,8 +3,6 @@ package com.aifeng.controller;
 import com.aifeng.Util;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
-import com.aifeng.model.Scripture;
-import com.aifeng.service.CreedService;
 import com.aifeng.service.ScriptureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +45,7 @@ public class ScriptureController {
 
     @RequestMapping("/scripture_add.do")
     public String scriptureAdd(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String coverPath = Util.uploadImg(request, ImgPath.scripturePath);
             String descPath = Util.uploadImg(request, ImgPath.scripturePath, "descImg");
@@ -58,7 +56,7 @@ public class ScriptureController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/scripture.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/scripture.do?religionType=" + religionType;
     }
 
     @RequestMapping("/scripture_toEdit.do")
@@ -74,7 +72,7 @@ public class ScriptureController {
 
     @RequestMapping("/scripture_edit.do")
     public String scriptureEdit(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String coverPath = Util.editImg(request, ImgPath.scripturePath);
             String descPath = Util.editImg(request, ImgPath.scripturePath, "descImg");
@@ -86,12 +84,12 @@ public class ScriptureController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/scripture.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/scripture.do?religionType=" + religionType;
     }
 
     @RequestMapping("/scripture_del.do")
     public String adDel(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.scripturePath);
             long id = Long.parseLong(request.getParameter("id"));
@@ -99,6 +97,6 @@ public class ScriptureController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/scripture.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/scripture.do?religionType=" + religionType;
     }
 }

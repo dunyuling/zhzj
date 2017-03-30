@@ -6,12 +6,21 @@ package com.aifeng.constant;
 
 public enum VerifyStatus {
 
-     待审核,审核通过,审核未通过
+//     待审核,审核通过,审核未通过
+    PENDINGAUDIT("待审核"),AUDITTHROUGH("审核通过"),AUDITFAILURE("审核未通过");
+
+    private String vs;
+
+    VerifyStatus(String vs) {
+        this.vs = vs;
+    }
+
+    public String getVs() {
+        return vs;
+    }
 
 
-//    IDENTIFITY_0(0,"待审核"),
-//    IDENTIFITY_1(0,"待审核"),
-//    IDENTIFITY_2(0,"待审核");
+//    IDENTIFITY_0(0,"待审核"), IDENTIFITY_1(1,"审核通过"), IDENTIFITY_2(2,"审核未通过");
 //
 //    private int code;
 //    private String value;

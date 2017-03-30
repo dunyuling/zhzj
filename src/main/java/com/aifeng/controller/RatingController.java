@@ -43,7 +43,7 @@ public class RatingController {
 
     @RequestMapping("/rating_add.do")
     public String productAdd(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.ratingPath);
             String name = request.getParameter("name");
@@ -54,7 +54,7 @@ public class RatingController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/rating.do?religionType=" + religionType;
     }
 
     @RequestMapping("/rating_toEdit.do")
@@ -72,7 +72,7 @@ public class RatingController {
 
     @RequestMapping("/rating_edit.do")
     public String productEdit(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.ratingPath);
@@ -86,11 +86,14 @@ public class RatingController {
         } finally {
             request.getSession().setAttribute("toValidIds", null);
         }
-        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/rating.do?religionType=" + religionType;
     }
 
     private Long[] getSelectObjIds(HttpServletRequest request) {
         String objIds[] = request.getParameterValues("select_obj_id");
+        if(objIds == null)
+            return null;
+
         Long[] ids = new Long[objIds.length];
         for (int i = 0; i < objIds.length; i++) {
             ids[i] = Long.parseLong(objIds[i]);
@@ -103,6 +106,6 @@ public class RatingController {
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.ratingPath);
         long id = Long.parseLong(request.getParameter("id"));
         ReligionType religionType = ratingService.delRating(imgRealPathDir, id);
-        return "redirect:/rating.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/rating.do?religionType=" + religionType;
     }
 }

@@ -62,11 +62,11 @@
                             <label class="col-sm-3 control-label">所属宗教：</label>
                             <div class="col-sm-7">
                                 <select id="religionType" class="form-control" name="religionType">
-                                    <option>佛教</option>
-                                    <option>道教</option>
-                                    <option>基督教</option>
-                                    <option>天主教</option>
-                                    <option>伊斯兰教</option>
+                                    <option value="BUDDHISM">佛教</option>
+                                    <option value="TAOISM">道教</option>
+                                    <option value="CHRISTIANITY">基督教</option>
+                                    <option value="CATHOLICISM">天主教</option>
+                                    <option value="ISLAMISM">伊斯兰教</option>
                                 </select>
                             </div>
                         </div>

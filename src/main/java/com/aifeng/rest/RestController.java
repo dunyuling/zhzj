@@ -75,10 +75,14 @@ public class RestController {
     @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    AdResponse ad() {
-        AdResponse adResponse = new AdResponse();
+    Response<List<Ad>> ad(HttpServletRequest request) {
+        Response<List<Ad>> adResponse = new Response<>();
         try {
-            adResponse.config(1, "success", adService.findAll());
+            Map<String, String> paramMap = getParamMap(request);
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
+            int page = Integer.parseInt(paramMap.get("page"));
+
+            adResponse.config(1, "success", adService.findAll(religionType,page));
         } catch (Exception e) {
             e.printStackTrace();
             adResponse.config(0, "failure", null);
@@ -89,12 +93,12 @@ public class RestController {
     @RequestMapping(value = "/information.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    InformationResponse information(HttpServletRequest request) {
-        InformationResponse informationResponse = new InformationResponse();
+    Response<List<Information>> information(HttpServletRequest request) {
+        Response<List<Information>> informationResponse = new Response<>();
         try {
             String ip = getParamMap(request).get("ip");
-            InformationPublisher informationPublisher = InformationPublisher.getIP(ip);
-            informationResponse.config(1, "success", informationService.findAll(informationPublisher, VerifyStatus.审核通过));
+            InformationPublisher informationPublisher = InformationPublisher.valueOf(ip);
+            informationResponse.config(1, "success", informationService.findAll(informationPublisher, VerifyStatus.AUDITTHROUGH));
         } catch (Exception e) {
             e.printStackTrace();
             informationResponse.config(0, "failure", null);
@@ -121,11 +125,12 @@ public class RestController {
     @RequestMapping(value = "/product.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    ProductResponse product(HttpServletRequest request) {
-        ProductResponse productResponse = new ProductResponse();
+    Response<List<Product>> product(HttpServletRequest request) {
+        Response<List<Product>> productResponse = new Response<>();
         try {
             Map<String, String> paramMap = getParamMap(request);
-            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             int page = Integer.parseInt(paramMap.get("page"));
             List<Product> productList = productService.findAllFromMobile(religionType, page);
             productResponse.config(1, "success", productList);
@@ -139,16 +144,14 @@ public class RestController {
     @RequestMapping(value = "/product_detail.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    ProductResponse productDetail(HttpServletRequest request) {
-        ProductResponse productDetailResponse = new ProductResponse();
+    Response<Product> productDetail(HttpServletRequest request) {
+        Response<Product> productDetailResponse = new Response<>();
         try {
             Map<String, String> paramMap = getParamMap(request);
             long id = Long.parseLong(paramMap.get("id"));
             Product product = productService.findProduct(id);
-            List<Product> productList = new ArrayList<>();
-            productList.add(product);
 
-            productDetailResponse.config(1, "success", productList);
+            productDetailResponse.config(1, "success", product);
         } catch (Exception e) {
             e.printStackTrace();
             productDetailResponse.config(0, "failure", null);
@@ -160,12 +163,12 @@ public class RestController {
     @RequestMapping(value = "/conferenceHall.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    ConferenceHallResponse conferenceHall(HttpServletRequest request) {
-        ConferenceHallResponse conferenceHallResponse = new ConferenceHallResponse();
+    Response<List<ConferenceHall>> conferenceHall(HttpServletRequest request) {
+        Response<List<ConferenceHall>> conferenceHallResponse = new Response<>();
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             List<ConferenceHall> conferenceHallList = conferenceHallService.findAll(religionType, page);
             conferenceHallResponse.config(1, "success", conferenceHallList);
         } catch (Exception e) {
@@ -178,12 +181,12 @@ public class RestController {
     @RequestMapping(value = "/rating.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    RatingResponse rating(HttpServletRequest request) {
-        RatingResponse ratingResponse = new RatingResponse();
+    Response<List<Rating>> rating(HttpServletRequest request) {
+        Response<List<Rating>> ratingResponse = new Response<>();
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             List<Rating> list = ratingService.findAll(ContentType.mobile, religionType, page);
             ratingResponse.config(1, "success", list);
         } catch (Exception e) {
@@ -196,12 +199,12 @@ public class RestController {
     @RequestMapping(value = "/creed.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    CreedResponse creed(HttpServletRequest request) {
-        CreedResponse creedResponse = new CreedResponse();
+    Response<List<Creed>> creed(HttpServletRequest request) {
+        Response<List<Creed>> creedResponse = new Response<List<Creed>>();
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             List<Creed> list = creedService.findAll(religionType, page);
             creedResponse.config(1, "success", list);
         } catch (Exception e) {
@@ -214,12 +217,12 @@ public class RestController {
     @RequestMapping(value = "/scripture.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    ScriptureResponse scripture(HttpServletRequest request) {
-        ScriptureResponse scriptureResponse = new ScriptureResponse();
+    Response<List<Scripture>> scripture(HttpServletRequest request) {
+        Response<List<Scripture>> scriptureResponse = new Response<>();
         try {
             Map<String, String> paramMap = getParamMap(request);
             int page = Integer.parseInt(paramMap.get("page"));
-            ReligionType religionType = ReligionType.getType(paramMap.get("rt"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             List<Scripture> list = scriptureService.findAll(religionType, page);
             scriptureResponse.config(1, "success", list);
         } catch (Exception e) {
@@ -239,7 +242,8 @@ public class RestController {
         try {
             ObjectMapper mapper = new ObjectMapper();
             // convert JSON string to Map
-            map = mapper.readValue(json, new TypeReference<Map<String, String>>() {});
+            map = mapper.readValue(json, new TypeReference<Map<String, String>>() {
+            });
             System.out.println(map);
         } catch (IOException e) {
             e.printStackTrace();

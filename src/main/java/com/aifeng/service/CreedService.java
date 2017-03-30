@@ -1,8 +1,9 @@
 package com.aifeng.service;
 
-import com.aifeng.constant.*;
+import com.aifeng.constant.Constants;
+import com.aifeng.constant.ImgPath;
+import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.CreedRepository;
-import com.aifeng.model.Ad;
 import com.aifeng.model.Creed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -41,11 +42,11 @@ public class CreedService {
 
     @Transactional
     public List<Creed> findAll(ReligionType religionType,int page) {
-        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
+        int pageSize = religionType == ReligionType.OTHER ? 4 : Constants.NotOtherIndex;
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
 
-        if(religionType == ReligionType.其它) {
+        if(religionType == ReligionType.OTHER) {
             return creedRepository.findAll(pageRequest).getContent();
         } else {
             return creedRepository.findAllByReligionType(pageRequest,religionType).getContent();

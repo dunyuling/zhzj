@@ -45,7 +45,7 @@ public class InformationService {
         information.setTitle(title);
         information.setImg(imgPath);
         information.setContent(content);
-        information.setVerifyStatus(VerifyStatus.待审核);
+        information.setVerifyStatus(VerifyStatus.PENDINGAUDIT);
         information.setInformationPublisher(informationPublisher);
         information.setCreateTime(new Date());
         informationRepository.save(information);
@@ -64,7 +64,7 @@ public class InformationService {
         if (imgPath != null) {
             information.setImg(imgPath);
         }
-        information.setVerifyStatus(VerifyStatus.待审核);
+        information.setVerifyStatus(VerifyStatus.PENDINGAUDIT);
         information.setDenyReason(null);
         information.setUpdateTime(new Date());
         informationRepository.save(information);
@@ -74,7 +74,7 @@ public class InformationService {
     public void verifyInformation(long id, VerifyStatus verifyStatus, String denyReason) {
         Information information = informationRepository.findOne(id);
         information.setVerifyStatus(verifyStatus);
-        if (verifyStatus == VerifyStatus.审核未通过) {
+        if (verifyStatus == VerifyStatus.AUDITTHROUGH) {
             information.setDenyReason(denyReason);
         } else {
             information.setDenyReason(null);

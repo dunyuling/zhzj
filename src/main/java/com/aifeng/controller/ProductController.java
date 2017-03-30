@@ -43,7 +43,7 @@ public class ProductController {
 
     @RequestMapping("/product_add.do")
     public String productAdd(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.productPath);
             String name = request.getParameter("name");
@@ -58,7 +58,7 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
+        return "redirect:/product.do?religionType=" + religionType;
     }
 
     @RequestMapping("/product_toEdit.do")
@@ -75,7 +75,7 @@ public class ProductController {
 
     @RequestMapping("/product_edit.do")
     public String productEdit(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             long id = Long.parseLong(request.getParameter("id"));
             String imgPath = Util.editImg(request, ImgPath.productPath);
@@ -94,7 +94,7 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
+        return "redirect:/product.do?religionType=" + religionType;
     }
 
     @RequestMapping("/product_del.do")
@@ -102,6 +102,6 @@ public class ProductController {
         String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.productPath);
         long id = Long.parseLong(request.getParameter("id"));
         ReligionType religionType = productService.delProduct(imgRealPathDir, id);
-        return "redirect:/product.do?religionType="+ReligionType.getConParam(religionType);
+        return "redirect:/product.do?religionType=" + religionType;
     }
 }

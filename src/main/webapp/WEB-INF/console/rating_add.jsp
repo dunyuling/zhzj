@@ -56,11 +56,11 @@
                             <label class="col-sm-3 control-label">所属宗教：</label>
                             <div class="col-sm-7">
                                 <select id="religionType" class="form-control" name="religionType">
-                                    <option>佛教</option>
-                                    <option>道教</option>
-                                    <option>基督教</option>
-                                    <option>天主教</option>
-                                    <option>伊斯兰教</option>
+                                    <option value="BUDDHISM">佛教</option>
+                                    <option value="TAOISM">道教</option>
+                                    <option value="CHRISTIANITY">基督教</option>
+                                    <option value="CATHOLICISM">天主教</option>
+                                    <option value="ISLAMISM">伊斯兰教</option>
                                 </select>
                             </div>
                         </div>
@@ -74,8 +74,8 @@
                             <label class="col-sm-3 control-label">评选类型：</label>
                             <div class="col-sm-7">
                                 <select id="rt" class="form-control" name="rt">
-                                    <option>会场</option>
-                                    <option>人员</option>
+                                    <option value="CONFERENCEHALL">会场</option>
+                                    <option value="BELIEVER">人员</option>
                                 </select>
                             </div>
                         </div>

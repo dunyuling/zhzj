@@ -1,12 +1,9 @@
 package com.aifeng;
 
-import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
-import org.apache.http.NameValuePair;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -226,10 +223,10 @@ public class Util {
 
     public static ReligionType getDefaultReligionType(HttpServletRequest request) {
         String religionStr = request.getParameter("religionType");
-        return religionStr == null || religionStr.isEmpty() ? ReligionType.佛教 : ReligionType.getType(religionStr);
+        return religionStr == null || religionStr.isEmpty() ? ReligionType.BUDDHISM : ReligionType.valueOf(religionStr);
     }
 
     public static void main(String args[]) {
-        System.out.println(ReligionType.getType("fo"));
+        System.out.println(ReligionType.valueOf("BUDDHISM"));
     }
 }

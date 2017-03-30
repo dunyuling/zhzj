@@ -3,9 +3,7 @@ package com.aifeng.service;
 import com.aifeng.constant.Constants;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
-import com.aifeng.dao.CreedRepository;
 import com.aifeng.dao.ScriptureRepository;
-import com.aifeng.model.Creed;
 import com.aifeng.model.Scripture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -45,11 +43,11 @@ public class ScriptureService {
 
     @Transactional
     public List<Scripture> findAll(ReligionType religionType, int page) {
-        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
+        int pageSize = religionType == ReligionType.OTHER ? 4 : Constants.NotOtherIndex;
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
 
-        if (religionType == ReligionType.其它) {
+        if (religionType == ReligionType.OTHER) {
             return scriptureRepository.findAll(pageRequest).getContent();
         } else {
             return scriptureRepository.findAllByReligionType(pageRequest, religionType).getContent();

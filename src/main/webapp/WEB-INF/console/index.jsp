@@ -42,9 +42,9 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="/ad.do">广告管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="/information.do?ip=gov">政府资讯管理</a>
+                        <li><a class="J_menuItem" href="/information.do?ip=GOV">政府资讯管理</a>
                         </li>
-                        <li><a class="J_menuItem" href="/information.do?ip=religion">宗教资讯管理</a>
+                        <li><a class="J_menuItem" href="/information.do?ip=RELIGION">宗教资讯管理</a>
                         </li>
                         <li><a class="J_menuItem" href="/product.do">宗教产品管理</a>
                         </li>

@@ -58,7 +58,7 @@ public class ConferenceHallController {
 
     @RequestMapping("/conferenceHall_add.do")
     public String conferenceHallAdd(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.conferenceHallPath);
             String name = request.getParameter("name");
@@ -69,7 +69,7 @@ public class ConferenceHallController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/conferenceHall.do?religionType=" + religionType;
     }
 
     @RequestMapping("/conferenceHall_toEdit.do")
@@ -85,7 +85,7 @@ public class ConferenceHallController {
 
     @RequestMapping("/conferenceHall_edit.do")
     public String conferenceHallEdit(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgRelativePath = Util.editImg(request, ImgPath.conferenceHallPath);
             long id = Long.parseLong(request.getParameter("id"));
@@ -97,12 +97,12 @@ public class ConferenceHallController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/conferenceHall.do?religionType=" + religionType;
     }
 
     @RequestMapping("/conferenceHall_del")
     public String conferenceHallDel(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.conferenceHallPath);
             long id = Long.parseLong(request.getParameter("id"));
@@ -110,6 +110,6 @@ public class ConferenceHallController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/conferenceHall.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/conferenceHall.do?religionType=" + religionType;
     }
 }

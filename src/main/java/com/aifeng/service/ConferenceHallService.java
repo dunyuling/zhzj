@@ -43,11 +43,11 @@ public class ConferenceHallService {
 
     @Transactional
     public List<ConferenceHall> findAll(ReligionType religionType, int page) {
-        int pageSize = religionType == ReligionType.其它 ? 4 : Constants.NotOtherIndex;
+        int pageSize = religionType == ReligionType.OTHER ? 4 : Constants.NotOtherIndex;
 
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageRequest = new PageRequest(page, pageSize, sort);
-        if(religionType == ReligionType.其它) {
+        if(religionType == ReligionType.OTHER) {
             return conferenceHallRepository.findAll(pageRequest).getContent();
         } else {
             return conferenceHallRepository.findAllByReligionType(pageRequest,religionType).getContent();

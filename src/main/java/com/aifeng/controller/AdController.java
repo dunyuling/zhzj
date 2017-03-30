@@ -3,6 +3,7 @@ package com.aifeng.controller;
 import com.aifeng.Util;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.RedirectionType;
+import com.aifeng.constant.ReligionType;
 import com.aifeng.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,11 @@ public class AdController {
     }
 
     @RequestMapping("/ad.do")
-    public String ad(Model model) {
+    public String ad(HttpServletRequest request, Model model) {
         try {
-            model.addAttribute("ads", adService.findAll());
+            ReligionType religionType = Util.getDefaultReligionType(request);
+            model.addAttribute("ads", adService.findAll(religionType, 0))
+                    .addAttribute("religionType", religionType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,8 +53,10 @@ public class AdController {
             String name = request.getParameter("name");
             String redirectionTypeStr = request.getParameter("redirectionType");
             String innerRedirectionType = request.getParameter("innerRedirectionType");
+            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
+
             String externalLink = request.getParameter("externalLink");
-            adService.saveAd(name, imgPath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+            adService.saveAd(name, imgPath, religionType, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,10 +80,11 @@ public class AdController {
             String imgRelativePath = Util.editImg(request, ImgPath.adPath);
             long id = Long.parseLong(request.getParameter("id"));
             String name = request.getParameter("name");
+            ReligionType religionType = ReligionType.valueOf(request.getParameter("religionType"));
             String redirectionTypeStr = request.getParameter("redirectionType");
             String innerRedirectionType = request.getParameter("innerRedirectionType");
             String externalLink = request.getParameter("externalLink");
-            adService.editAd(id, name, imgRelativePath, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
+            adService.editAd(id, name, imgRelativePath, religionType, RedirectionType.valueOf(redirectionTypeStr), innerRedirectionType, externalLink);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,13 +103,8 @@ public class AdController {
         return "redirect:/ad.do";
     }
 
-    @RequestMapping("/ad_up.do")
-    public String adUp() {
-        return "ad";
-    }
-
-    @RequestMapping("/ad_down.do")
-    public String adDown() {
+    @RequestMapping("/ad_index.do")
+    public String adIndex() {
         return "ad";
     }
 }

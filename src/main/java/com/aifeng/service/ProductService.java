@@ -3,9 +3,7 @@ package com.aifeng.service;
 import com.aifeng.constant.Constants;
 import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
-import com.aifeng.dao.ProductIntroRepository;
 import com.aifeng.dao.ProductRepository;
-import com.aifeng.dao.ProductSlideRepository;
 import com.aifeng.model.Product;
 import com.aifeng.model.ProductIntro;
 import com.aifeng.model.ProductSlide;
@@ -31,7 +29,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductSlideRepository productSlideRepository, ProductIntroRepository productIntroRepository, ProductSlideService productSlideService, ProductIntroService productIntroService) {
+    public ProductService(ProductRepository productRepository, ProductSlideService productSlideService, ProductIntroService productIntroService) {
         this.productRepository = productRepository;
         this.productSlideService = productSlideService;
         this.productIntroService = productIntroService;
@@ -66,7 +64,7 @@ public class ProductService {
 
     @Transactional
     public List<Product> findAllFromMobile(ReligionType religionType, int page) {
-        int pageSize = religionType == ReligionType.其它 ? Constants.OtherIndex : Constants.NotOtherIndex;
+        int pageSize = religionType == ReligionType.OTHER ? Constants.OtherIndex : Constants.NotOtherIndex;
 
         List<Product> list = productRepository.findByPage(pageSize, page * pageSize);
         for (Product product : list) {

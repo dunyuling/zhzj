@@ -59,11 +59,11 @@
                             <div class="col-sm-7">
                                 <input type="hidden" name="religionType_" id="religionType_" value="${rating.religionType}" />
                                 <select id="religionType" class="form-control" name="religionType">
-                                    <option value="佛教">佛教</option>
-                                    <option value="道教">道教</option>
-                                    <option value="基督教">基督教</option>
-                                    <option value="天主教">天主教</option>
-                                    <option value="伊斯兰教">伊斯兰教</option>
+                                    <option value="BUDDHISM">佛教</option>
+                                    <option value="TAOISM">道教</option>
+                                    <option value="CHRISTIANITY">基督教</option>
+                                    <option value="CATHOLICISM">天主教</option>
+                                    <option value="ISLAMISM">伊斯兰教</option>
                                 </select>
                             </div>
                         </div>
@@ -79,8 +79,8 @@
                             <div class="col-sm-7">
                                 <input type="hidden" id="rt_" name="rt_" value="${rating.rt}" />
                                 <select disabled id="rt" class="form-control" name="rt">
-                                    <option value="会场">会场</option>
-                                    <option value="人员">人员</option>
+                                    <option value="CONFERENCEHALL">会场</option>
+                                    <option value="BELIEVER">人员</option>
                                 </select>
                             </div>
                         </div>

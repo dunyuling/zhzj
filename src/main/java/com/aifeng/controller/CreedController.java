@@ -45,7 +45,7 @@ public class CreedController {
 
     @RequestMapping("/creed_add.do")
     public String creedAdd(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgPath = Util.uploadImg(request, ImgPath.creedPath);
             String title = request.getParameter("title");
@@ -55,7 +55,7 @@ public class CreedController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/creed.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/creed.do?religionType=" + religionType;
     }
 
     @RequestMapping("/creed_toEdit.do")
@@ -71,7 +71,7 @@ public class CreedController {
 
     @RequestMapping("/creed_edit.do")
     public String creedEdit(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgRelativePath = Util.editImg(request, ImgPath.creedPath);
             long id = Long.parseLong(request.getParameter("id"));
@@ -82,12 +82,12 @@ public class CreedController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/creed.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/creed.do?religionType=" + religionType;
     }
 
     @RequestMapping("/creed_del.do")
     public String adDel(HttpServletRequest request) {
-        ReligionType religionType = ReligionType.佛教;
+        ReligionType religionType = ReligionType.BUDDHISM;
         try {
             String imgRealPathDir = request.getSession().getServletContext().getRealPath(ImgPath.creedPath);
             long id = Long.parseLong(request.getParameter("id"));
@@ -95,6 +95,6 @@ public class CreedController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/creed.do?religionType=" + ReligionType.getConParam(religionType);
+        return "redirect:/creed.do?religionType=" + religionType;
     }
 }

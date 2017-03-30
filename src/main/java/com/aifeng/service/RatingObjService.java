@@ -39,7 +39,7 @@ public class RatingObjService {
     @Transactional
     public void saveRatingObj(Rating rating, RatingType rt, List<Long> ratingObjReferenceIds) {
         switch (rt) {
-            case 会场:
+            case CONFERENCEHALL:
                 for (long id : ratingObjReferenceIds) {
                     RatingObj ratingObj = new RatingObj();
                     ConferenceHall conferenceHall = conferenceHallService.findConferenceHall(id);
@@ -49,7 +49,7 @@ public class RatingObjService {
                     ratingObjRepository.save(ratingObj);
                 }
                 break;
-            case 人员:
+            case BELIEVER:
                 for (long id : ratingObjReferenceIds) {
                     RatingObj ratingObj = new RatingObj();
                     Believer believer = believerService.findBeliever(id);

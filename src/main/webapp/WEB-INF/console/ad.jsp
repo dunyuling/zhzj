@@ -83,7 +83,9 @@
                                         <a href="#">${ad.redirectionType}</a>
                                     </td>
                                     <td class="project-completion">
-
+                                        <c:if test="${ad.innerRedirectionType != 'OTHER'}">
+                                            ${ad.innerRedirectionType}
+                                        </c:if>
                                     </td>
                                     <td class="ad-actions">
                                         <a href="/ad_toEdit.do?id=${ad.id}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>

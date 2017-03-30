@@ -30,7 +30,7 @@ public class InformationController {
     public String informationGov(HttpServletRequest request, Model model) {
         try {
             String ip_ = request.getParameter("ip");
-            InformationPublisher ip = InformationPublisher.getIP(ip_);
+            InformationPublisher ip = InformationPublisher.valueOf(ip_);
             model.addAttribute("informations", informationService.findAll(ip));
             model.addAttribute("ip", ip_);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class InformationController {
             String content = request.getParameter("content");
 
             ip = request.getParameter("ip");
-            informationService.saveInformation(title, imgRelativePath, content, InformationPublisher.getIP(ip));
+            informationService.saveInformation(title, imgRelativePath, content, InformationPublisher.valueOf(ip));
         } catch (Exception e) {
             e.printStackTrace();
         }

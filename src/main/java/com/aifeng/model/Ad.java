@@ -2,6 +2,7 @@ package com.aifeng.model;
 
 import com.aifeng.constant.InnerRedirectionType;
 import com.aifeng.constant.RedirectionType;
+import com.aifeng.constant.ReligionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,9 @@ public class Ad {
 
     @Enumerated(EnumType.STRING)
     private InnerRedirectionType innerRedirectionType;
+
+    @Enumerated(EnumType.STRING)
+    private ReligionType religionType;
 
     public Ad() {
         this.createTime = new Date();
