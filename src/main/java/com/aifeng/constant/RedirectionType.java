@@ -5,7 +5,7 @@ package com.aifeng.constant;
  */
 public enum RedirectionType {
 
-        EXTERNAL("外部跳转"),INNER("内部跳转"),NONE("不跳转");
+    EXTERNAL("外部跳转"),INNER("内部跳转"),NONE("不跳转");
 
     private String rt;
 

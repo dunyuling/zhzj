@@ -1,28 +1,28 @@
 package com.aifeng.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
- * Created by pro on 17-3-10.
+ * Created by pro on 17-3-31.
  */
 @Data
 @NoArgsConstructor
 @Table
 @Entity
-public class BelieverPath {
+public class BelieverChurch {
 
     @Id
     @GeneratedValue
-    private int id;
-
-    private Date date;
-
-    //TODO 位置如何表示
+    private long id;
 
     @ManyToOne
     private Believer believer;
+
+    @ManyToOne
+    @JsonBackReference
+    private Church church;
 }

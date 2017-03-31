@@ -1,7 +1,8 @@
 package com.aifeng.dao;
 
 import com.aifeng.constant.ReligionType;
-import com.aifeng.model.Ad;
+import com.aifeng.constant.VerifyStatus;
+import com.aifeng.model.Church;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdRepository extends JpaRepository<Ad, Long> {
-    List<Ad> findAll(Sort sort);
+public interface ChurchRepository extends JpaRepository<Church, Long> {
+    List<Church> findAll(Sort sort);
 
-    Page<Ad> findAllByReligionType(ReligionType religionType, Pageable pageable);
+    Page<Church> findAllByReligionTypeAndVerifyStatus(ReligionType religionType, VerifyStatus verifyStatus, Pageable pageable);
 }

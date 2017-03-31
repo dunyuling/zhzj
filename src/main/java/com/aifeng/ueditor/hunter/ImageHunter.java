@@ -1,5 +1,9 @@
 package com.aifeng.ueditor.hunter;
 
+import com.aifeng.ueditor.PathFormat;
+import com.aifeng.ueditor.define.*;
+import com.aifeng.ueditor.upload.StorageManager;
+
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -7,14 +11,6 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.aifeng.ueditor.PathFormat;
-import com.aifeng.ueditor.define.AppInfo;
-import com.aifeng.ueditor.define.BaseState;
-import com.aifeng.ueditor.define.MIMEType;
-import com.aifeng.ueditor.define.MultiState;
-import com.aifeng.ueditor.define.State;
-import com.aifeng.ueditor.upload.StorageManager;
 
 /**
  * 图片抓取器

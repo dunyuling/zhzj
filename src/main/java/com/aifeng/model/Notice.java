@@ -42,5 +42,5 @@ public class Notice {
     private Date updateTime;
 
     @OneToOne
-    private Manager manager;
+    private Believer believer;
 }

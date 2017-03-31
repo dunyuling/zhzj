@@ -46,12 +46,10 @@ public class Product {
     private ReligionType religionType;
 
     @OneToMany(mappedBy = "product")
-//    @JsonIgnore
     @JsonManagedReference
     private List<ProductSlide> productSlideList = new ArrayList<>();
 
     @OneToOne(mappedBy = "product")
-//    @JsonIgnore
     @JsonManagedReference
     private ProductIntro productIntro;
 }

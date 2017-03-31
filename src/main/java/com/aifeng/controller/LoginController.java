@@ -1,7 +1,7 @@
 package com.aifeng.controller;
 
-import com.aifeng.model.Manager;
-import com.aifeng.service.ManagerService;
+import com.aifeng.model.Believer;
+import com.aifeng.service.BelieverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @Autowired
-    ManagerService managerService;
+    BelieverService believerService;
 
     @RequestMapping("/toLogin.do")
     public String toLogin() {
@@ -28,8 +28,8 @@ public class LoginController {
     public String login( HttpServletRequest request,Model model) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Manager manager = managerService.findManager(username,password);
-        if(manager != null) {
+        Believer believer = believerService.findUser(username,password);
+        if(believer != null) {
             request.getSession().setAttribute("username",username);
             return "index";
         } else {

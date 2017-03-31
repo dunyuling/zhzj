@@ -26,8 +26,8 @@ public class BaseUser {
 
     private String mobileNum;
 
-    //这个字段应该不用填写
-    private String validateCode;
+//    //这个字段应该不用填写
+//    private String validateCode;
 
     private String IDNum;
 

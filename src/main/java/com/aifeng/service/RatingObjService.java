@@ -2,10 +2,7 @@ package com.aifeng.service;
 
 import com.aifeng.constant.RatingType;
 import com.aifeng.dao.RatingObjRepository;
-import com.aifeng.model.Believer;
-import com.aifeng.model.ConferenceHall;
-import com.aifeng.model.Rating;
-import com.aifeng.model.RatingObj;
+import com.aifeng.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +11,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by pro on 17-3-14.
@@ -25,16 +21,16 @@ public class RatingObjService {
     private final RatingObjRepository ratingObjRepository;
 
     @Autowired
-    public RatingObjService(RatingObjRepository ratingObjRepository, ConferenceHallService conferenceHallService, BelieverService believerService, RatingResultService ratingResultService) {
+    public RatingObjService(RatingObjRepository ratingObjRepository, ConferenceHallService conferenceHallService, RatingResultService ratingResultService, BelieverService believerService) {
         this.ratingObjRepository = ratingObjRepository;
         this.conferenceHallService = conferenceHallService;
-        this.believerService = believerService;
         this.ratingResultService = ratingResultService;
+        this.believerService = believerService;
     }
 
     private final ConferenceHallService conferenceHallService;
-    private final BelieverService believerService;
     private final RatingResultService ratingResultService;
+    private final BelieverService believerService;
 
     @Transactional
     public void saveRatingObj(Rating rating, RatingType rt, List<Long> ratingObjReferenceIds) {
@@ -52,7 +48,7 @@ public class RatingObjService {
             case BELIEVER:
                 for (long id : ratingObjReferenceIds) {
                     RatingObj ratingObj = new RatingObj();
-                    Believer believer = believerService.findBeliever(id);
+                    Believer believer = believerService.findUser(id);
                     ratingObj.setBeliever(believer);
                     ratingObj.setConferenceHall(null);
                     ratingObj.setRating(rating);

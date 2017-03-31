@@ -32,7 +32,10 @@ public class Activity {
     private Date updateTime;
 
     @OneToOne
-    private Manager manager;
+    private Believer believer;
+
+    @OneToOne(mappedBy = "activity")
+    private ActivityActor activityActor;
 
     //TODO 区域如何表示
 }

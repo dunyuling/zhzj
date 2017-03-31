@@ -19,10 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by pro on 17-3-7.
@@ -135,7 +132,7 @@ public class Main {
 
 
         HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/scripture.json", HttpMethod.POST, entity, String.class);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/register_church.json", HttpMethod.POST, entity, String.class);
 
         System.out.println(responseEntity);
     }
@@ -145,7 +142,7 @@ public class Main {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = new HashMap<>();
-            map.put("rt", "TAOISM");
+            map.put("rt", "BUDDHISM");
             map.put("page", 0);
 
 //            map.put("id",57);

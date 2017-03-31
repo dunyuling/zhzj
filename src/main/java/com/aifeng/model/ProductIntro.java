@@ -23,6 +23,7 @@ public class ProductIntro {
     @GeneratedValue
     private long id;
 
+    @Column
     private String htmlFrag;
 
     private Date createTime;

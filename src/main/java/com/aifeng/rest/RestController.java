@@ -9,8 +9,11 @@ import com.aifeng.response.*;
 import com.aifeng.service.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.dialect.PostgreSQL82Dialect;
+import org.omg.PortableServer.POA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,10 +35,11 @@ public class RestController {
     private AdService adService;
 
     @Autowired
-    public RestController(RatingService ratingService, CreedService creedService, ScriptureService scriptureService) {
+    public RestController(RatingService ratingService, CreedService creedService, ScriptureService scriptureService, ChurchService churchService) {
         this.ratingService = ratingService;
         this.creedService = creedService;
         this.scriptureService = scriptureService;
+        this.churchService = churchService;
     }
 
     @Autowired
@@ -63,6 +67,8 @@ public class RestController {
     private final
     RatingService ratingService;
 
+    private final ChurchService churchService;
+
     @Autowired
     public void setConferenceHallService(ConferenceHallService conferenceHallService) {
         this.conferenceHallService = conferenceHallService;
@@ -82,7 +88,7 @@ public class RestController {
             ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             int page = Integer.parseInt(paramMap.get("page"));
 
-            adResponse.config(1, "success", adService.findAll(religionType,page));
+            adResponse.config(1, "success", adService.findAll(religionType, page));
         } catch (Exception e) {
             e.printStackTrace();
             adResponse.config(0, "failure", null);
@@ -231,6 +237,81 @@ public class RestController {
         }
         return scriptureResponse;
     }
+
+    @RequestMapping(value = "/register_church.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response<List<Church>> registerChurch(HttpServletRequest request) {
+        Response<List<Church>> churchResponse = new Response<>();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            int page = Integer.parseInt(paramMap.get("page"));
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
+            List<Church> list = churchService.findAll(religionType, VerifyStatus.AUDITTHROUGH, page);
+            churchResponse.config(1, "success", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            churchResponse.config(0, "failure", null);
+        }
+        return churchResponse;
+    }
+
+    @RequestMapping(value = "/register.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response register(Believer believer) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/edit_information.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response editInformation(HttpServletRequest request) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/edit_pwd.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response editPwd(HttpServletRequest request) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/create_church.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response createChurch(HttpServletRequest request) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/audit_church.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response auditChurch(HttpServletRequest httpServletRequest) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/create_notice.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response createNotice(HttpServletRequest request) {
+
+        return null;
+    }
+
+    @RequestMapping(value = "/audit_notice.json", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Response auditNotice(HttpServletRequest request) {
+
+        return null;
+    }
+
 
     private Map<String, String> getParamMap(HttpServletRequest request) {
         String data = request.getParameter("data");

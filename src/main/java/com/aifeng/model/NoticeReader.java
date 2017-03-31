@@ -25,8 +25,5 @@ public class NoticeReader {
     private Notice notice;
 
     @OneToOne
-    private Manager manager;
-
-    @OneToOne
     private Believer believer;
 }
