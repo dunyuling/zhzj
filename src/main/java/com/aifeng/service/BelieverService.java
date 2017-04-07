@@ -4,12 +4,14 @@ import com.aifeng.constant.ImgPath;
 import com.aifeng.constant.ReligionType;
 import com.aifeng.dao.BelieverRepository;
 import com.aifeng.model.Believer;
+import com.aifeng.model.Church;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,15 +22,28 @@ public class BelieverService {
 
     @Autowired
     BelieverRepository believerRepository;
+    @Autowired
+    ChurchService churchService;
+    @Autowired
+    BelieverChurchService believerChurchService;
+
 
     @Transactional
-    public void saveUser(String name, String password, String photo, String mobileNum,
-                         String IDNum, String address, ReligionType religionType) {
+    public Believer registerUser(String mobileNum, String password, String name, String IDNum,
+                             String address, ReligionType religionType, long church_id) {
         Believer believer = new Believer();
-        believer.config(name, password, photo, mobileNum, address, religionType);
+        believer.setName(name);
+        believer.setPassword(password);
+        believer.setMobileNum(mobileNum);
         believer.setIDNum(IDNum);
-        believerRepository.save(believer);
+        believer.setAddress(address);
+        believer.setReligionType(religionType);
+        believer.setCreateTime(new Date());
+        believer = believerRepository.save(believer);
 
+        Church church = churchService.findChurch(church_id);
+        believerChurchService.saveChurchRepository(believer, church);
+        return believer;
     }
 
     @Transactional
@@ -45,8 +60,8 @@ public class BelieverService {
     }
 
     @Transactional
-    public Believer findUser(String username , String password) {
-        Believer believer = believerRepository.findByNameAndPassword(username,password);
+    public Believer findUser(String username, String password) {
+        Believer believer = believerRepository.findByNameAndPassword(username, password);
         return believer;
     }
 

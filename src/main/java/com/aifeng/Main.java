@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -105,6 +107,8 @@ public class Main {
             }
         }*/
         testTemplate();
+
+//        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
     }
 
     public static void testTemplate() {
@@ -132,7 +136,7 @@ public class Main {
 
 
         HttpEntity<?> entity = new HttpEntity<>(body, httpHeaders);
-        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/register_church.json", HttpMethod.POST, entity, String.class);
+        ResponseEntity responseEntity = restTemplate.exchange("http://localhost:8080/mobile/ad.json", HttpMethod.POST, entity, String.class);
 
         System.out.println(responseEntity);
     }
@@ -142,11 +146,20 @@ public class Main {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = new HashMap<>();
+
+//            map.put("religionType","BUDDHISM");
+//            map.put("mobileNum","mobileNum");
+//            map.put("password","password");
+//            map.put("name","name");
+//            map.put("IDNum","IDNum");
+//            map.put("address","address");
+//            map.put("church_id","99");
+
+
             map.put("rt", "BUDDHISM");
             map.put("page", 0);
 
 //            map.put("id",57);
-
 //            map.put("ip","RELIGION");
 
             // convert map to JSON string

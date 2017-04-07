@@ -35,11 +35,12 @@ public class RestController {
     private AdService adService;
 
     @Autowired
-    public RestController(RatingService ratingService, CreedService creedService, ScriptureService scriptureService, ChurchService churchService) {
+    public RestController(RatingService ratingService, CreedService creedService, ScriptureService scriptureService, ChurchService churchService, BelieverService believerService) {
         this.ratingService = ratingService;
         this.creedService = creedService;
         this.scriptureService = scriptureService;
         this.churchService = churchService;
+        this.believerService = believerService;
     }
 
     @Autowired
@@ -78,6 +79,8 @@ public class RestController {
 
     private final ScriptureService scriptureService;
 
+    private final BelieverService believerService;
+
     @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -88,7 +91,8 @@ public class RestController {
             ReligionType religionType = ReligionType.valueOf(paramMap.get("rt"));
             int page = Integer.parseInt(paramMap.get("page"));
 
-            adResponse.config(1, "success", adService.findAll(religionType, page));
+            List<Ad> adList = adService.findAll(religionType, page);
+            adResponse.config(1, "success", adList);
         } catch (Exception e) {
             e.printStackTrace();
             adResponse.config(0, "failure", null);
@@ -259,9 +263,25 @@ public class RestController {
     @RequestMapping(value = "/register.json", method = RequestMethod.POST)
     public
     @ResponseBody
-    Response register(Believer believer) {
+    Response<Believer> register(HttpServletRequest request, Believer believer) {
+        Response<Believer> response = new Response<>();
+        try {
+            Map<String, String> paramMap = getParamMap(request);
+            ReligionType religionType = ReligionType.valueOf(paramMap.get("religionType"));
+            String mobileNum = paramMap.get("mobileNum");
+            String password = paramMap.get("password");
+            String name = paramMap.get("name");
+            String IDNum = paramMap.get("IDNum");
+            String address = paramMap.get("address");
+            long church_id = Long.parseLong(paramMap.get("church_id"));
 
-        return null;
+            Believer believer1 =  believerService.registerUser(mobileNum,password,name,IDNum,address,religionType,church_id);
+            response.config(1,"success",believer1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.config(0,"failure",null);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/edit_information.json", method = RequestMethod.POST)
@@ -269,6 +289,11 @@ public class RestController {
     @ResponseBody
     Response editInformation(HttpServletRequest request) {
 
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
