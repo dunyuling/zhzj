@@ -1,9 +1,8 @@
 package com.aifeng.reflectTest;
 
-import jdk.internal.util.xml.impl.Pair;
-
-import java.lang.reflect.*;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created by pro on 17-4-7.
