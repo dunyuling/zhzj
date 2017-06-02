@@ -3,9 +3,6 @@ package com.aifeng.jdbc;
 import javax.sql.DataSource;
 import java.util.List;
 
-/**
- * Created by pro on 17-4-11.
- */
 public interface StudentDAO {
     /**
      * This is the method to be used to initialize
