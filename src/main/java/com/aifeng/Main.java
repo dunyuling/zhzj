@@ -106,9 +106,14 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-        testTemplate();
+//        testTemplate();
 
 //        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+
+//        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+//        restTemplate.postForEntity("https://api.weixin.qq.com/cgi-bin/template/api_set_industry","","");
+        System.out.println(new Date().getTime());
+
     }
 
     public static void testTemplate() {

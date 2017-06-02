@@ -74,14 +74,14 @@ public class RestController {
     public void setConferenceHallService(ConferenceHallService conferenceHallService) {
         this.conferenceHallService = conferenceHallService;
     }
-
+// kTWnwMMgc0M8gWPfFgO30LHSo6e0_-_0e_EGbFIVCkg
     private final CreedService creedService;
 
     private final ScriptureService scriptureService;
 
     private final BelieverService believerService;
 
-    @RequestMapping(value = "/ad.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/ad.json"/*, method = RequestMethod.POST*/)
     public
     @ResponseBody
     Response<List<Ad>> ad(HttpServletRequest request) {

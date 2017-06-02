@@ -68,7 +68,6 @@ public class Util {
             e.printStackTrace();
         }
         return realPath + File.separator + imgName;
-
     }
 
     public static String uploadImg(HttpServletRequest request, String realPath) {

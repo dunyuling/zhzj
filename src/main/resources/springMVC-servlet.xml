@@ -30,12 +30,12 @@
 
         <!--<bean class="com.aifeng.AuthCheckInterceptor"/>-->
 
-    <mvc:interceptors>
+    <!--<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/mobile/*.json"/>
             <bean class="com.aifeng.AuthCheckInterceptor"/>
         </mvc:interceptor>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
 
     <mvc:annotation-driven>
